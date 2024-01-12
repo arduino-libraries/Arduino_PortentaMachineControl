@@ -1,78 +1,74 @@
 /*
-  Machine Control - RTC Alarm Example
+ * Portenta Machine Control - RTC Alarm Example
+ *
+ * This sketch shows the usage of the RTC PCF8563T on the Machine
+ * Control Carrier and demonstrates how to configure and utilize the PCF8563T's alarm.
+ *
+ * Circuit:
+ *  - Portenta H7
+ *  - Portenta Machine Control
+ *
+ * Initial author: Riccardo Rizzo @Rocketct
+ */
 
-  This sketch shows how to use the RTC PCF8563T on the Machine
-  Control Carrier and how to configure and use the PCF8563T's
-  alarm.
-
-  Circuit:
-   - Portenta H7
-   - Machine Control
-
-*/
 #include <Arduino_MachineControl.h>
-
-using namespace machinecontrol;
 
 int hours = 12;
 int minutes = 45;
 int seconds = 57;
 
-void callback_alarm();
-
 bool alarm_flag = false;
+int counter = 1;
+
+void callback_alarm();
 
 void setup() {
   Serial.begin(9600);
   while (!Serial) {
-    ; // wait for serial port to connect.
-  }
-  Serial.println("Initialization");
-
-  if (!rtc_controller.begin()) {
-    Serial.println("Initialization fail!");
+      ;
   }
 
-
-  Serial.println("Initialization Done!");
+  Serial.print("RTC Initialization");
+  if(!MachineControl_RTCController.begin()) {
+    Serial.println(" fail!");
+  }
+  Serial.println(" done!");
 
   // APIs to set date's fields: hours, minutes and seconds
-  rtc_controller.setHours(hours);
-  rtc_controller.setMinutes(minutes);
-  rtc_controller.setSeconds(seconds);
+  MachineControl_RTCController.setHours(hours);
+  MachineControl_RTCController.setMinutes(minutes);
+  MachineControl_RTCController.setSeconds(seconds);
   // Enables Alarm on PCF8563T
-  rtc_controller.enableAlarm();
+  MachineControl_RTCController.enableAlarm();
 
   // set the minutes at which the alarm should rise
-  rtc_controller.setMinuteAlarm(46);
+  MachineControl_RTCController.setMinuteAlarm(46);
 
   // Attach an interrupt to the RTC interrupt pin
   attachInterrupt(RTC_INT, callback_alarm, FALLING);
-
-  Serial.println();
 }
-int counter = 1;
+
 void loop() {
   if (alarm_flag) {
     Serial.println("Alarm!!");
     detachInterrupt(RTC_INT);
-    rtc_controller.setSeconds(seconds);
-    rtc_controller.setMinuteAlarm(minutes + counter);
-    rtc_controller.clearAlarm();
+    MachineControl_RTCController.setSeconds(seconds);
+    MachineControl_RTCController.setMinuteAlarm(minutes + counter);
+    MachineControl_RTCController.clearAlarm();
     attachInterrupt(RTC_INT, callback_alarm, FALLING);
     alarm_flag = false;
 
     // To disable the alarm uncomment the following line:
-    // rtc_controller.disableAlarm();
+    // MachineControl_RTCController.disableAlarm();
   }
 
-  // APIs to get date's fields.
-  //Serial.println(digitalRead(rtc_controller.int_pin));
-  Serial.print(rtc_controller.getHours());
+  // APIs to get date's fields
+  Serial.print(MachineControl_RTCController.getHours());
   Serial.print(":");
-  Serial.print(rtc_controller.getMinutes());
+  Serial.print(MachineControl_RTCController.getMinutes());
   Serial.print(":");
-  Serial.println(rtc_controller.getSeconds());
+  Serial.println(MachineControl_RTCController.getSeconds());
+  
   delay(1000);
 }
 

@@ -1,66 +1,56 @@
 /*
-  RS232 communication
-
-  This sketch shows how to use the SP335ECR1 on the Machine
-  Control as a RS232 interface, how to periodically send
-  a string on the RS232 TX channel and how to receive data
-  from the interface RX channel.
-
-  Circuit:
-   - Arduino Portenta Machine Control (PMC)
-   - Device with RS232 interface
-   - Connect PMC TXN to RS232 Device RXD
-   - Connect PMC RXP to RS232 Device TXD
-   - Connect PMC GND to RS232 Device GND
-
-*/
+ * Portenta Machine Control - RS232 Communication Example
+ *
+ * This sketch shows the usage of the SP335ECR1 on the Machine Control
+ * as an RS232 interface. It demonstrates how to periodically send a string on the RS232 TX channel
+ * and how to receive data from the interface RX channel.
+ *
+ * Circuit:
+ *  - Portenta H7
+ *  - Portenta Machine Control
+ *  - Device with RS232 interface
+ *  - Connect PMC TXN to RS232 Device RXD
+ *  - Connect PMC RXP to RS232 Device TXD
+ *  - Connect PMC GND to RS232 Device GND
+ *
+ * Initial author: Riccardo Rizzo @Rocketct
+ */
 
 #include <Arduino_MachineControl.h>
 
-using namespace machinecontrol;
-
 constexpr unsigned long sendInterval { 1000 };
 unsigned long sendNow { 0 };
-
 unsigned long counter { 0 };
 
-void setup()
-{
-
-    Serial.begin(115200);
-    // Wait for Serial or start after 2.5s
-    for (auto const timeout = millis() + 2500; !Serial && timeout < millis(); delay(500))
+void setup() {
+    Serial.begin(9600);
+    while (!Serial) {
         ;
+    }
 
     delay(2500);
     Serial.println("Start RS232 initialization");
 
-    // Set the PMC Communication Protocols to default config
-    comm_protocols.init();
-
+    // Set the PMC Communication Protocols to default config and enable the RS485/RS232 system
     // RS485/RS232 default config is:
     // - RS485/RS232 system disabled
     // - RS485 mode
     // - Half Duplex
     // - No A/B and Y/Z 120 Ohm termination enabled
+    MachineControl_RS485Comm.begin(115200); // Specify baudrate for the communication
 
-    // Enable the RS485/RS232 system
-    comm_protocols.rs485Enable(true);
     // Enable the RS232 mode
-    comm_protocols.rs485ModeRS232(true);
+    MachineControl_RS485Comm.setModeRS232(true);
 
-    // Specify baudrate for RS232 communication
-    comm_protocols.rs485.begin(115200);
     // Start in receive mode
-    comm_protocols.rs485.receive();
+    MachineControl_RS485Comm.receive();
 
     Serial.println("Initialization done!");
 }
 
-void loop()
-{
-    if (comm_protocols.rs485.available())
-        Serial.write(comm_protocols.rs485.read());
+void loop() {
+    if (MachineControl_RS485Comm.available())
+        Serial.write(MachineControl_RS485Comm.read());
 
     if (millis() > sendNow) {
         String log = "[";
@@ -74,14 +64,14 @@ void loop()
         Serial.println(log);
 
         // Disable receive mode before transmission
-        comm_protocols.rs485.noReceive();
+        MachineControl_RS485Comm.noReceive();
 
-        comm_protocols.rs485.beginTransmission();
-        comm_protocols.rs485.println(msg);
-        comm_protocols.rs485.endTransmission();
+        MachineControl_RS485Comm.beginTransmission();
+        MachineControl_RS485Comm.println(msg);
+        MachineControl_RS485Comm.endTransmission();
 
         // Re-enable receive mode after transmission
-        comm_protocols.rs485.receive();
+        MachineControl_RS485Comm.receive();
 
         sendNow = millis() + sendInterval;
     }

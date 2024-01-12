@@ -1,23 +1,20 @@
 /*
-  CAN Write Example
+ * Portenta Machine Control - CAN Write Example
+ *
+ * This sketch shows the usage of the CAN transceiver on the Machine Control
+ * and demonstrates how to transmit data from the TX CAN channel.
+ *
+ * Circuit:
+ *  - Portenta H7
+ *  - Portenta Machine Control
+ *
+ * Initial author: Riccardo Rizzo @Rocketct
+ */
 
-  This sketch shows how to use the CAN transceiver on the Machine
-  Control and how to transmit data from the TX CAN channel.
-
-  Circuit:
-   - Portenta H7
-   - Machine Control
-
-*/
 #include <Arduino_MachineControl.h>
-#include <CAN.h>
-using namespace machinecontrol;
 
-#define DATARATE_2MB     2000000
-#define DATARATE_1_5MB   1500000
-#define DATARATE_1MB     1000000
-#define DATARATE_800KB   800000
-
+static uint32_t const CAN_ID = 13ul;
+static uint32_t msg_cnt = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -25,26 +22,30 @@ void setup() {
     ; // wait for serial port to connect.
   }
 
-  Serial.println("Start CAN initialization");
-  comm_protocols.enableCAN();
-  comm_protocols.can.frequency(DATARATE_800KB);
-  Serial.println("Initialization done");
+  if (!MachineControl_CANComm.begin(CanBitRate::BR_500k)) {
+    Serial.println("CAN init failed.");
+    while(1) ;
+  }
 }
 
-int counter = 0;
-unsigned char payload = 0x49;
-int payload_size = 1;
-
 void loop() {
+  /* Assemble the CAN message */
+  uint8_t const msg_data[] = {0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08};
+  CanMsg msg(CAN_ID, sizeof(msg_data), msg_data);
 
-  mbed::CANMessage msg = mbed::CANMessage(13ul, &payload, payload_size);
-  if (comm_protocols.can.write(msg)) {
-    Serial.println("Message sent");
-  } else {
-    Serial.println("Transmission Error: ");
-    Serial.println(comm_protocols.can.tderror());
-    comm_protocols.can.reset();
+  /* Transmit the CAN message */
+  int const rc = MachineControl_CANComm.write(msg);
+  if (rc <= 0) {
+    Serial.print("CAN write failed with error code: ");
+    Serial.println(rc);
+    while(1) ;
   }
 
-  delay(100);
+  Serial.println("CAN write message!");
+
+  /* Increase the message counter */
+  msg_cnt++;
+
+  /* Only send one message per second */
+  delay(1000);
 }

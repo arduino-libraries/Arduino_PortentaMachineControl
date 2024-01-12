@@ -1,52 +1,51 @@
 /*
-  Machine Control - Analog out Example
-
-  This example shows how to use the Analog out channels on
-  the Machine Control.
-  The example sets the channels PWM period in the setup,
-  then loops the channels voltage output value from 0V to 10.4V.
-
-  The circuit:
-   - Portenta H7
-   - Machine Control
-
-  This example code is in the public domain.
-*/
+ * Portenta Machine Control - Analog out
+ *
+ * This example demonstrates the utilization of the Analog out channels on the Machine Control.
+ * The example configures the channels' PWM period in the setup and then iterates through voltage
+ * output values from 0V to 10.5V in a loop.
+ *
+ * The circuit:
+ *  - Portenta H7
+ *  - Portenta Machine Control
+ *
+ * Initial author: Riccardo Rizzo @Rocketct
+ */
 
 #include <Arduino_MachineControl.h>
 
-using namespace machinecontrol;
+#define PERIOD_MS 4 /* 4ms - 250Hz */
+
+float voltage = 0;
 
 void setup() {
-  //analog_out.period_ms(CHANNEL, PERIOD_MILLISECONDS);
-  analog_out.period_ms(0, 4);
-  analog_out.period_ms(1, 4);
-  analog_out.period_ms(2, 4);
-  analog_out.period_ms(3, 4);
-  
   Serial.begin(9600);
-  Serial.println("Analog out test");
+  while (!Serial) {
+    ; // wait for serial port to connect.
+  }
 
+  MachineControl_AnalogOut.begin();
+
+  MachineControl_AnalogOut.setPeriod(0, PERIOD_MS); 
+  MachineControl_AnalogOut.setPeriod(1, PERIOD_MS);
+  MachineControl_AnalogOut.setPeriod(2, PERIOD_MS);
+  MachineControl_AnalogOut.setPeriod(3, PERIOD_MS);
 }
 
-//Output values which will be changed with this variable
-float counter = 1;
-
 void loop() {
-  //analog_out.write(CHANNEL, OUTPUT_VOLTAGE_VALUE);
-  analog_out.write(0, counter);
-  analog_out.write(1, counter);
-  analog_out.write(2, counter);
-  analog_out.write(3, counter);
-  Serial.println("All channels set at "+String(counter)+"V");
+  MachineControl_AnalogOut.write(0, voltage);
+  MachineControl_AnalogOut.write(1, voltage);
+  MachineControl_AnalogOut.write(2, voltage);
+  MachineControl_AnalogOut.write(3, voltage);
+
+  Serial.println("All channels set at " + String(voltage) + "V");
   
-  counter = counter + 0.1;
-  //Maximum output value is 10.4V
-  if (counter >= 10.5)
-  {
-    counter = 0;
-    //Additional 100 ms delay introduced to manage 10.5V -> 0V fall time of 150 ms
-    delay(100);
+  voltage = voltage + 0.1;
+  /* Maximum output value is 10.5V */
+  if (voltage >= 10.5) {
+    voltage = 0;
+    delay(100); /* Additional 100 ms delay introduced to manage 10.5V -> 0V fall time of 150 ms */
   }
+
   delay(100);
 }
