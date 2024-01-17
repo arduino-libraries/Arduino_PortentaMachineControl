@@ -14,7 +14,7 @@
  * Initial author: Leonardo Cavagnis @leonardocavagnis
  */
 
-#include <Arduino_MachineControl.h>
+#include <Arduino_PortentaMachineControl.h>
 #include <Arduino_AdvancedAnalog.h>
 
 const float RES_DIVIDER = 0.28057;

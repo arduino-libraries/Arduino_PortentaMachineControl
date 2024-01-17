@@ -1,5 +1,5 @@
-#ifndef __ARDUINO_MACHINE_CONTROL_H
-#define __ARDUINO_MACHINE_CONTROL_H
+#ifndef __ARDUINO_PORTENTA_MACHINE_CONTROL_H
+#define __ARDUINO_PORTENTA_MACHINE_CONTROL_H
 
 #include "AnalogInClass.h"
 #include "AnalogOutClass.h"
@@ -14,4 +14,4 @@
 #include "CANCommClass.h"
 #include "RS485CommClass.h"
 
-#endif /* __ARDUINO_MACHINE_CONTROL_H */
+#endif /* __ARDUINO_PORTENTA_MACHINE_CONTROL_H */

@@ -9,9 +9,11 @@
  *  - USB device (e.g., keyboard, mouse, etc.)
  *
  * Initial author: Riccardo Rizzo @Rocketct
+ * Authors who have contributed to updates:
+ * - Leonardo Cavagnis @leonardocavagnis
  */
 
-#include <Arduino_MachineControl.h>
+#include <Arduino_PortentaMachineControl.h>
 
 #include <USBHost.h>
 #include "TUSB_helpers.h"

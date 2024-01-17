@@ -9,9 +9,11 @@
  *  - Portenta Machine Control
  *
  * Initial author: Riccardo Rizzo @Rocketct
+ * Authors who have contributed to updates:
+ * - Leonardo Cavagnis @leonardocavagnis
  */
 
-#include <Arduino_MachineControl.h>
+#include <Arduino_PortentaMachineControl.h>
 
 static uint32_t const CAN_ID = 13ul;
 static uint32_t msg_cnt = 0;

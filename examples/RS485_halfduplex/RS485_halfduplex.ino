@@ -12,9 +12,11 @@
  *  - Connect TXP to A(+) and TXN to B(-)
  *
  * Initial author: Riccardo Rizzo @Rocketct
+ * Authors who have contributed to updates:
+ * - Leonardo Cavagnis @leonardocavagnis
  */
 
-#include "Arduino_MachineControl.h"
+#include "Arduino_PortentaMachineControl.h"
 
 constexpr unsigned long sendInterval { 1000 };
 unsigned long sendNow { 0 };

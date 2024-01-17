@@ -12,9 +12,11 @@
  *  - A J Type thermocouple temperature sensor connected to TEMP PROBES CH3
  *
  * Initial author: Riccardo Rizzo @Rocketct
+ * Authors who have contributed to updates:
+ * - Leonardo Cavagnis @leonardocavagnis
  */
 
-#include <Arduino_MachineControl.h>
+#include <Arduino_PortentaMachineControl.h>
 
 void setup() {
   Serial.begin(9600);

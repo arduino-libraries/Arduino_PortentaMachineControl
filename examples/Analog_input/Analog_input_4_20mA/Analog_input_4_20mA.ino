@@ -12,9 +12,11 @@
  *  - Portenta Machine Control
  *
  * Initial author: Riccardo Rizzo @Rocketct
+ * Authors who have contributed to updates:
+ * - Leonardo Cavagnis @leonardocavagnis
  */
 
-#include <Arduino_MachineControl.h>
+#include <Arduino_PortentaMachineControl.h>
 
 #define SENSE_RES 120
 

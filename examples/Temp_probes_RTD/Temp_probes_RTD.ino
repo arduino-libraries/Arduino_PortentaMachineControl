@@ -13,9 +13,11 @@
  *  - 3-wire RTD or 2-wire RTD
  *
  * Initial author: Riccardo Rizzo @Rocketct
+ * Authors who have contributed to updates:
+ * - Leonardo Cavagnis @leonardocavagnis
  */
 
-#include <Arduino_MachineControl.h>
+#include <Arduino_PortentaMachineControl.h>
 
 // The value of the Rref resistor. Use 430.0 for PT100
 #define RREF      400.0
