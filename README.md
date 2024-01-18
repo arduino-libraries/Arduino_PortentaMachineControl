@@ -1,6 +1,6 @@
 # 🏭 Library for Portenta Machine Control
 
-> ⚠️ **Important**
+> [!IMPORTANT]
 >
 > This library is an upgraded and improved version designed to replace the deprecated [Arduino_MachineControl](https://github.com/arduino-libraries/Arduino_MachineControl).
 >
