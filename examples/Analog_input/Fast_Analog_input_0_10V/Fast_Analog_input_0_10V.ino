@@ -11,7 +11,9 @@
  *  - Portenta H7
  *  - Portenta Machine Control
  *
- * Initial author: Leonardo Cavagnis @leonardocavagnis
+ * This example code is in the public domain. 
+ * Copyright (c) 2024 Arduino
+ * SPDX-License-Identifier: MPL-2.0
  */
 
 #include <Arduino_PortentaMachineControl.h>

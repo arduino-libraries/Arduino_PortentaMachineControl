@@ -11,9 +11,9 @@
  *  - Two K Type thermocouple temperature sensors connected to TEMP PROBES CH0 and CH1
  *  - A J Type thermocouple temperature sensor connected to TEMP PROBES CH3
  *
- * Initial author: Riccardo Rizzo @Rocketct
- * Authors who have contributed to updates:
- * - Leonardo Cavagnis @leonardocavagnis
+ * This example code is in the public domain. 
+ * Copyright (c) 2024 Arduino
+ * SPDX-License-Identifier: MPL-2.0
  */
 
 #include <Arduino_PortentaMachineControl.h>

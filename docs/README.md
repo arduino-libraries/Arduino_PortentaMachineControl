@@ -1,17 +1,17 @@
 # Portenta Machine Control Library
 
-[![Check Arduino status](https://github.com/arduino-libraries/Arduino_MachineControl/actions/workflows/check-arduino.yml/badge.svg)](https://github.com/arduino-libraries/Arduino_MachineControl/actions/workflows/check-arduino.yml)
-[![Compile Examples status](https://github.com/arduino-libraries/Arduino_MachineControl/actions/workflows/compile-examples.yml/badge.svg)](https://github.com/arduino-libraries/Arduino_MachineControl/actions/workflows/compile-examples.yml)
-[![Spell Check status](https://github.com/arduino-libraries/Arduino_MachineControl/actions/workflows/spell-check.yml/badge.svg)](https://github.com/arduino-libraries/Arduino_MachineControl/actions/workflows/spell-check.yml)
+[![Check Arduino status](https://github.com/arduino-libraries/Arduino_PortentaMachineControl/actions/workflows/check-arduino.yml/badge.svg)](https://github.com/arduino-libraries/Arduino_PortentaMachineControl/actions/workflows/check-arduino.yml)
+[![Compile Examples status](https://github.com/arduino-libraries/Arduino_PortentaMachineControl/actions/workflows/compile-examples.yml/badge.svg)](https://github.com/arduino-libraries/Arduino_PortentaMachineControl/actions/workflows/compile-examples.yml)
+[![Spell Check status](https://github.com/arduino-libraries/Arduino_PortentaMachineControl/actions/workflows/spell-check.yml/badge.svg)](https://github.com/arduino-libraries/Arduino_PortentaMachineControl/actions/workflows/spell-check.yml)
 
-[![License](https://img.shields.io/badge/License-LGPLv2.1-blue.svg)](https://github.com/arduino-libraries/Arduino_MachineControl/blob/master/LICENSE.txt)
+[![License](https://img.shields.io/badge/License-MPLv2.0-blue.svg)](https://github.com/arduino-libraries/Arduino_PortentaMachineControl/blob/main/LICENSE)
 
 The Portenta Machine Control Library is a C++ library designed to efficiently manage the functionalities of the Portenta Machine Control board. It provides extensive support for inputs such as digital, analog, and encoder signals, while offering outputs including digital and analog signals. This library also menages communication through protocols like CAN-BUS and serial ports, and allows connectivity via Ethernet, USB, Wi-Fi, and Bluetooth Low Energy.
 
 The library empowers users to easily initialize, control, and access the diverse functionalities of the Portenta Machine Control, enhancing its capability and adaptability for industrial applications.
 
 📚 For more information about this library please visit us at:
-https://www.arduino.cc/reference/en/libraries/arduino_machinecontrol
+https://www.arduino.cc/reference/en/libraries/arduino_portentamachinecontrol/
 
 ## Features
 
@@ -42,8 +42,8 @@ To use this library, you must have a properly powered Portenta Machine Control b
 Here is a minimal example to control a digital output:
 
 ```cpp
-// Include the Arduino MachineControl library
-#include <Arduino_MachineControl.h>
+// Include the Arduino PortentaMachineControl library
+#include <Arduino_PortentaMachineControl.h>
 
 void setup() {
     // Initialize the digital outputs module of the MachineControl library
@@ -65,6 +65,7 @@ void loop() {
 - **[Analog_input_0_10V](../examples/Analog_input/Analog_input_0_10V):** This example demonstrates how to read analog input signals in the 0-10V range.
 - **[Analog_input_4_20mA](../examples/Analog_input/Analog_input_4_20mA):** This example demonstrates how to read analog input signals in the 4-20mA range.
 - **[Analog_input_NTC](../examples/Analog_input/Analog_input_NTC):** This example shows reading analog input signals from NTC temperature probes.
+- **[Fast_Analog_input_0_10V](../examples/Analog_input/Fast_Analog_input_0_10V):** This example demonstrates how to read analog input signals in the 0-10V range using the [Arduino_AdvancedAnalog](https://github.com/arduino-libraries/Arduino_AdvancedAnalog) library.
 - **[Analog_Out](../examples/Analog_Out):** This example shows how to control analog output signals.
 - **[ReadCan](../examples/CAN/ReadCan):** This example demonstrates how to read data using the CAN-BUS communication protocol.
 - **[WriteCan](../examples/CAN/WriteCan):** This example demonstrates how to send data using the CAN-BUS communication protocol.
@@ -88,4 +89,4 @@ The API documentation can be found [here](./api.md).
 
 ## License
 
-This library is released under the [LGPLv2.1 license](https://github.com/arduino-libraries/Arduino_MachineControl/blob/master/LICENSE.txt).
+This library is released under the [MPL-2.0 license](https://github.com/arduino-libraries/Arduino_PortentaMachineControl/blob/main/LICENSE).

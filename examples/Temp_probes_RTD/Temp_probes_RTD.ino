@@ -12,9 +12,9 @@
  *  - Portenta Machine Control
  *  - 3-wire RTD or 2-wire RTD
  *
- * Initial author: Riccardo Rizzo @Rocketct
- * Authors who have contributed to updates:
- * - Leonardo Cavagnis @leonardocavagnis
+ * This example code is in the public domain. 
+ * Copyright (c) 2024 Arduino
+ * SPDX-License-Identifier: MPL-2.0
  */
 
 #include <Arduino_PortentaMachineControl.h>
