@@ -20,7 +20,7 @@ RTDTempProbeClass::RTDTempProbeClass(PinName rtd_cs_pin,
                                      PinName ch_sel1_pin,
                                      PinName ch_sel2_pin,
                                      PinName rtd_th_pin)
-: MAX31865Class(rtd_cs_pin), _rtd_cs{rtd_cs_pin}, _ch_sel0{ch_sel0_pin}, _ch_sel1{ch_sel0_pin}, _ch_sel2{ch_sel2_pin}, _rtd_th{rtd_th_pin}                     
+: MAX31865Class(rtd_cs_pin), _rtd_cs{rtd_cs_pin}, _ch_sel0{ch_sel0_pin}, _ch_sel1{ch_sel1_pin}, _ch_sel2{ch_sel2_pin}, _rtd_th{rtd_th_pin}                     
 { }
 
 RTDTempProbeClass::~RTDTempProbeClass() 
