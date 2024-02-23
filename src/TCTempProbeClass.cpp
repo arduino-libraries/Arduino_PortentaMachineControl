@@ -19,7 +19,7 @@ TCTempProbeClass::TCTempProbeClass(PinName tc_cs_pin,
                                      PinName ch_sel0_pin, 
                                      PinName ch_sel1_pin,
                                      PinName ch_sel2_pin)
-: MAX31855Class(tc_cs_pin), _tc_cs{tc_cs_pin}, _ch_sel0{ch_sel0_pin}, _ch_sel1{ch_sel0_pin}, _ch_sel2{ch_sel2_pin}                  
+: MAX31855Class(tc_cs_pin), _tc_cs{tc_cs_pin}, _ch_sel0{ch_sel0_pin}, _ch_sel1{ch_sel1_pin}, _ch_sel2{ch_sel2_pin}                  
 { }
 
 TCTempProbeClass::~TCTempProbeClass() 
