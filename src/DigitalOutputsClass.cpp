@@ -77,7 +77,7 @@ void DigitalOutputsClass::write(uint8_t channel, PinStatus val) {
 
 void DigitalOutputsClass::writeAll(uint8_t val_mask) {
     for (uint8_t ch = 0; ch < 8; ch++) {
-        if (val_mask && (1 << ch)) {
+        if (val_mask & (1 << ch)) {
             write(ch, HIGH);
         } else {
             write(ch, LOW);
