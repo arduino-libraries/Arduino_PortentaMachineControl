@@ -37,7 +37,6 @@ public:
     void setTCType(uint8_t type);
 
 private:
-    uint32_t readSensor();
     float _coldOffset;
     uint8_t _faultMask = TC_FAULT_ALL;
     uint8_t _lastFault = 0;
@@ -112,10 +111,10 @@ private:
         {sizeof(InvT0_400) / sizeof(double), 20.872f, &InvT0_400[0]},
     };
 
+    uint32_t readSensor();
     double mvtoTemp(double voltage);
     double tempTomv(double temp);
     double polynomial(double value, int tableEntries, coefftable const (*table));
-
 };
 
 #endif

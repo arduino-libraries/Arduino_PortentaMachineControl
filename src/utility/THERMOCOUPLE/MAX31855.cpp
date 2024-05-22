@@ -62,7 +62,6 @@ uint32_t MAX31855Class::readSensor() {
 
     _spi->beginTransaction(_spiSettings);
 
-
     for (int i = 0; i < 4; i++) {
         read <<= 8;
         read |= _spi->transfer(0);
@@ -198,7 +197,7 @@ float MAX31855Class::readTCTemperature() {
 float MAX31855Class::readReferenceTemperature() {
     //TODO. Actually use TC _current_probe_type and _coldOffset
     uint32_t rawword;
-    float ref;
+    float referenceTemperature;
 
     rawword = readSensor();
 
@@ -210,13 +209,13 @@ float MAX31855Class::readReferenceTemperature() {
     rawword = rawword & 0x7FF;
     // check sign bit and convert to negative value.
     if (rawword & 0x800) {
-        ref = (0xF800 | (rawword & 0x7FF)) * 0.0625;
+        referenceTemperature = (0xF800 | (rawword & 0x7FF)) * 0.0625;
     } else {
         // multiply for the LSB value
-        ref = rawword * 0.0625f;
+        referenceTemperature = rawword * 0.0625f;
     }
 
-    return ref;
+    return referenceTemperature;
 }
 
 void MAX31855Class::setColdOffset(float offset) {
