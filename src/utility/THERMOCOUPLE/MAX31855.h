@@ -6,8 +6,11 @@
 #include <SPI.h>
 #include "pins_mc.h"
 
-#define PROBE_K 0
-#define PROBE_J 1
+#define PROBE_TC_K 0
+#define PROBE_TC_J 1
+
+#define PROBE_K PROBE_TC_K
+#define PROBE_J PROBE_TC_J
 
 class MAX31855Class {
 public:
@@ -16,13 +19,15 @@ public:
     bool begin();
     void end();
 
-    float readTemperature(int type = PROBE_K);
-    float readReferenceTemperature(int type = PROBE_K);
+    float readTCTemperature();
+    float readReferenceTemperature();
     void setColdOffset(float offset);
+    void setTCType(uint8_t type);
 
 private:
     uint32_t readSensor();
     float _coldOffset;
+    uint8_t _current_probe_type;
     PinName _cs;
     SPIClass* _spi;
     SPISettings _spiSettings;
@@ -74,10 +79,10 @@ private:
         {sizeof(InvK500_1372) / sizeof(double), 54.886f, &InvK500_1372[0]},
     };
 
-    double mvtoTemp(int type, double voltage);
-    double coldTempTomv(int type, double temp);
+    double mvtoTemp(double voltage);
+    double coldTempTomv(double temp);
     double polynomial(double value, int tableEntries, coefftable const (*table));
-};
 
+};
 
 #endif

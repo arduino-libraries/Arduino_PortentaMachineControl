@@ -85,17 +85,17 @@ double MAX31855Class::polynomial(double value, int tableEntries, coefftable cons
     return NAN;
 }
 
-double MAX31855Class::coldTempTomv(int type, double temp) {
+double MAX31855Class::coldTempTomv(double temp) {
     coefftable const (*table);
     int tableEntries;
     double voltage;
 
-    switch (type) {
-        case PROBE_J:
+    switch (_current_probe_type) {
+        case PROBE_TC_J:
             table = CoeffJ;
             tableEntries = sizeof(CoeffJ) / sizeof(coefftable);
-            break;
-        case PROBE_K:
+        break;
+        case PROBE_TC_K:
             table = CoeffK;
             tableEntries = sizeof(CoeffK) / sizeof(coefftable);
         break;
@@ -103,22 +103,22 @@ double MAX31855Class::coldTempTomv(int type, double temp) {
     voltage = polynomial(temp, tableEntries, table);
     // special case... for K probes in temperature range 0-1372 we need
     // to add an extra term
-    if (type == PROBE_K && temp > 0) {
+    if (_current_probe_type == PROBE_TC_K && temp>0) {
         voltage += 0.118597600000E+00 * exp(-0.118343200000E-03 * pow(temp - 0.126968600000E+03, 2));
     }
     return voltage;
 }
 
-double MAX31855Class::mvtoTemp(int type, double voltage) {
+double MAX31855Class::mvtoTemp(double voltage) {
     coefftable const (*table);
     int tableEntries;
 
-    switch (type) {
-        case PROBE_J:
+    switch (_current_probe_type) {
+        case PROBE_TC_J:
             table = InvCoeffJ;
             tableEntries = sizeof(InvCoeffJ) / sizeof(coefftable);
         break;
-        case PROBE_K:
+        case PROBE_TC_K:
             table = InvCoeffK;
             tableEntries = sizeof(InvCoeffJ) / sizeof(coefftable);
         break;
@@ -126,7 +126,7 @@ double MAX31855Class::mvtoTemp(int type, double voltage) {
     return polynomial(voltage, tableEntries, table);
 }
 
-float MAX31855Class::readTemperature(int type) {
+float MAX31855Class::readTCTemperature() {
     uint32_t rawword;
     int32_t measuredTempInt;
     int32_t measuredColdInt;
@@ -177,14 +177,15 @@ float MAX31855Class::readTemperature(int type) {
     // this way we calculate the voltage we would have measured if cold junction
     // was at 0 degrees celsius
 
-    measuredVolt = coldTempTomv(type, measuredCold - _coldOffset) + (measuredTemp - measuredCold) * 0.041276f;
+    measuredVolt = coldTempTomv(measuredCold - _coldOffset) + (measuredTemp - measuredCold) * 0.041276f;
 
     // finally from the cold junction compensated voltage we calculate the temperature
     // using NIST polynomial approximation for the thermocouple type we are using
-    return mvtoTemp(type, measuredVolt);
+    return mvtoTemp(measuredVolt);
 }
 
-float MAX31855Class::readReferenceTemperature(int type) {
+float MAX31855Class::readReferenceTemperature() {
+    //TODO. Actually use TC _current_probe_type and _coldOffset
     uint32_t rawword;
     float ref;
 
@@ -211,3 +212,7 @@ void MAX31855Class::setColdOffset(float offset) {
     _coldOffset = offset;
 }
 
+
+void MAX31855Class::setTCType(uint8_t type) {
+    _current_probe_type = type;
+}
