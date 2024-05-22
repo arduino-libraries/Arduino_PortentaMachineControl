@@ -134,7 +134,7 @@ double MAX31855Class::mvtoTemp(double voltage) {
     return polynomial(voltage, tableEntries, table);
 }
 
-float MAX31855Class::readTCTemperature() {
+double MAX31855Class::readTCVoltage() {
     uint32_t rawword;
     int32_t measuredTempInt;
     int32_t measuredColdInt;
@@ -188,6 +188,12 @@ float MAX31855Class::readTCTemperature() {
     // was at 0 degrees celsius
 
     measuredVolt = tempTomv(measuredCold - _coldOffset) + (measuredTemp - measuredCold) * 0.041276f;
+
+    return measuredVolt;
+}
+
+double MAX31855Class::readTCTemperature() {
+    measuredVolt = readTCVoltage();
 
     // finally from the cold junction compensated voltage we calculate the temperature
     // using NIST polynomial approximation for the thermocouple type we are using

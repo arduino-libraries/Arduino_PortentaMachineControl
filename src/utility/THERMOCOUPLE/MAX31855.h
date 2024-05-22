@@ -27,7 +27,8 @@ public:
     bool begin();
     void end();
 
-    float readTCTemperature();
+    double readTCVoltage();
+    double readTCTemperature();
     float readReferenceTemperature();
     void setColdOffset(float offset);
 
