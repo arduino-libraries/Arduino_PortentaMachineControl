@@ -30,12 +30,15 @@ public:
     double readTCVoltage();
     double readTCTemperature();
     float readReferenceTemperature();
+
     void setColdOffset(float offset);
+    float getColdOffset();
 
     void setFaultChecks(uint8_t faults);
     uint8_t getLastFault();
 
     void setTCType(uint8_t type);
+    uint8_t getTCType();
 
 private:
     float _coldOffset;

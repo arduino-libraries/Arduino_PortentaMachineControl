@@ -228,6 +228,10 @@ void MAX31855Class::setColdOffset(float offset) {
     _coldOffset = offset;
 }
 
+float MAX31855Class::getColdOffset() {
+    return _coldOffset;
+}
+
 void MAX31855Class::setFaultChecks(uint8_t faults) {
     _faultMask = faults & TC_FAULT_ALL;
 }
@@ -240,4 +244,8 @@ uint8_t MAX31855Class::getLastFault() {
 
 void MAX31855Class::setTCType(uint8_t type) {
     _current_probe_type = type;
+}
+
+void MAX31855Class::getTCType()) {
+    return _current_probe_type;
 }
