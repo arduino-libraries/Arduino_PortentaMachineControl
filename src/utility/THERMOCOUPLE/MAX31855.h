@@ -4,15 +4,16 @@
 #include <Arduino.h>
 #include <mbed.h>
 #include <SPI.h>
+#include "pins_mc.h"
 
 #define PROBE_K 0
 #define PROBE_J 1
 
 class MAX31855Class {
 public:
-    MAX31855Class(PinName cs = PI_0, SPIClass& spi = SPI);
+    MAX31855Class(PinName cs = MC_TC_CS_PIN, SPIClass& spi = SPI);
 
-    int begin();
+    bool begin();
     void end();
 
     float readTemperature(int type = PROBE_K);
@@ -55,8 +56,8 @@ private:
 
     static constexpr coefftable CoeffK []= {
         {0, -270, NULL},
-        {sizeof(Jm210_760) / sizeof(double), 0.0f, &Km270_0[0]},
-        {sizeof(K0_1372) / sizeof(double), 1200.0f, &K0_1372[0]}
+        {sizeof(Km270_0) / sizeof(double), 0.0f, &Km270_0[0]},
+        {sizeof(K0_1372) / sizeof(double), 1372.0f, &K0_1372[0]}
     };
 
     static constexpr coefftable InvCoeffJ []= {
@@ -78,6 +79,5 @@ private:
     double polynomial(double value, int tableEntries, coefftable const (*table));
 };
 
-extern MAX31855Class THERM;
 
 #endif

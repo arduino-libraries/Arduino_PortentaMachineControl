@@ -22,7 +22,7 @@ const MAX31855Class::coefftable MAX31855Class::InvCoeffK[];
 MAX31855Class::MAX31855Class(PinName cs, SPIClass& spi) : _cs(cs), _spi(&spi), _spiSettings(4000000, MSBFIRST, SPI_MODE0), _coldOffset(2.10f) {
 }
 
-int MAX31855Class::begin() {
+bool MAX31855Class::begin() {
     uint32_t rawword;
 
     pinMode(_cs, OUTPUT);
@@ -33,10 +33,10 @@ int MAX31855Class::begin() {
     if (rawword == 0xFFFFFF) {
         end();
 
-        return 0;
+        return false;
     }
 
-    return 1;
+    return true;
 }
 
 void MAX31855Class::end() {
@@ -203,7 +203,7 @@ float MAX31855Class::readReferenceTemperature(int type) {
         // multiply for the LSB value
         ref = rawword * 0.0625f;
     }
-    Serial.println(ref);
+
     return ref;
 }
 
@@ -211,4 +211,3 @@ void MAX31855Class::setColdOffset(float offset) {
     _coldOffset = offset;
 }
 
-MAX31855Class THERM;
