@@ -14,6 +14,12 @@
 #define PROBE_J PROBE_TC_J
 #define PROBE_T PROBE_TC_T
 
+#define TC_FAULT_NONE      (0x00) // Disable all fault checks
+#define TC_FAULT_OPEN      (0x01) // Enable open circuit fault check
+#define TC_FAULT_SHORT_GND (0x02) // Enable short to GND fault check
+#define TC_FAULT_SHORT_VCC (0x04) // Enable short to VCC fault check
+#define TC_FAULT_ALL       (0x07) // Enable all fault checks
+
 class MAX31855Class {
 public:
     MAX31855Class(PinName cs = MC_TC_CS_PIN, SPIClass& spi = SPI);
@@ -24,11 +30,17 @@ public:
     float readTCTemperature();
     float readReferenceTemperature();
     void setColdOffset(float offset);
+
+    void setFaultChecks(uint8_t faults);
+    uint8_t getLastFault();
+
     void setTCType(uint8_t type);
 
 private:
     uint32_t readSensor();
     float _coldOffset;
+    uint8_t _faultMask = TC_FAULT_ALL;
+    uint8_t _lastFault = 0;
     uint8_t _current_probe_type;
     PinName _cs;
     SPIClass* _spi;

@@ -146,9 +146,11 @@ float MAX31855Class::readTCTemperature() {
     rawword = readSensor();
 
     // Check for reading error
-    if (rawword & 0x7) {
+    lastFault = rawword & _faultMask;
+    if (_lastFault) {
         return NAN;
     }
+
     // The cold junction temperature is stored in the last 14 word's bits
     // whereas the ttermocouple temperature (non linearized) is in the topmost 18 bits
     // sent by the Thermocouple-to-Digital Converter
@@ -221,6 +223,15 @@ void MAX31855Class::setColdOffset(float offset) {
     _coldOffset = offset;
 }
 
+void MAX31855Class::setFaultChecks(uint8_t faults) {
+    _faultMask = faults & TC_FAULT_ALL;
+}
+
+uint8_t MAX31855Class::getLastFault() {
+    uint8_t tempLastFault = _lastFault;
+    _lastFault = 0;
+    return tempLastFault;
+}
 
 void MAX31855Class::setTCType(uint8_t type) {
     _current_probe_type = type;
