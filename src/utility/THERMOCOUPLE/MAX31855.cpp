@@ -72,11 +72,10 @@ double MAX31855Class::polynomial(double value, int tableEntries, coefftable cons
         if (value < table[i].max) {
             if (table[i].size == 0) {
                 return NAN;
-            }
-            else {
+            } else {
                 output = 0;
                 for (int j = 0; j < table[i].size; j++) {
-                    output += valuePower * table[i].coeffs[j];
+                    output += valuePower*table[i].coeffs[j];
                     valuePower *= value;
                 }
                 return output;
@@ -167,7 +166,7 @@ float MAX31855Class::readTemperature(int type) {
     // convert it to degrees
     measuredCold = (measuredColdInt / 16.0f);
     // now the tricky part... since MAX31855K is considering a linear response
-    // and is trimemd for K thermocouples, we have to convert the reading back
+    // and is trimed for K thermocouples, we have to convert the reading back
     // to mV and then use NIST polynomial approximation to determine temperature
     // we know that reading from chip is calculated as:
     // temp = chip_temperature + thermocouple_voltage/0.041276f
