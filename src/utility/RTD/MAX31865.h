@@ -52,29 +52,29 @@
 
 class MAX31865Class {
 public:
-  MAX31865Class(PinName cs = PA_6);
+    MAX31865Class(PinName cs = PA_6);
 
-  bool begin(int wires);
-  void end();
+    bool begin(int wires);
+    void end();
 
-  float readTemperature(float RTDnominal, float refResistor);
-  uint8_t readFault(void);
-  void clearFault(void);
-  uint32_t readRTD();
-  bool getHighThresholdFault(uint8_t fault);
-  bool getLowThresholdFault(uint8_t fault);
-  bool getLowREFINFault(uint8_t fault);
-  bool getHighREFINFault(uint8_t fault);
-  bool getLowRTDINFault(uint8_t fault);
-  bool getVoltageFault(uint8_t fault);
+    float readTemperature(float RTDnominal, float refResistor);
+    uint8_t readFault(void);
+    void clearFault(void);
+    uint32_t readRTD();
+    bool getHighThresholdFault(uint8_t fault);
+    bool getLowThresholdFault(uint8_t fault);
+    bool getLowREFINFault(uint8_t fault);
+    bool getHighREFINFault(uint8_t fault);
+    bool getLowRTDINFault(uint8_t fault);
+    bool getVoltageFault(uint8_t fault);
 
 private:
-  uint8_t readByte(uint8_t addr);
-  uint16_t readBytes(uint8_t addr);
-  void writeByte(uint8_t addr, uint8_t data);
+    uint8_t readByte(uint8_t addr);
+    uint16_t readBytes(uint8_t addr);
+    void writeByte(uint8_t addr, uint8_t data);
 
-  PinName _cs;
-  SPIClass& _spi;
+    PinName _cs;
+    SPIClass& _spi;
 };
 
 #endif
