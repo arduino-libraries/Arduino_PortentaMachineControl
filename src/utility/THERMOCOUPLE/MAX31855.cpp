@@ -2,8 +2,12 @@
 
 const double MAX31855Class::Jm210_760[];
 const double MAX31855Class::J760_1200[];
+
 const double MAX31855Class::Km270_0[];
 const double MAX31855Class::K0_1372[];
+
+const double MAX31855Class::Tm270_0[];
+const double MAX31855Class::T0_400[];
 
 const double MAX31855Class::InvJ_neg[];
 const double MAX31855Class::InvJ0_760[];
@@ -13,11 +17,16 @@ const double MAX31855Class::InvK_neg[];
 const double MAX31855Class::InvK0_500[];
 const double MAX31855Class::InvK500_1372[];
 
+const double MAX31855Class::InvT_m200_0[];
+const double MAX31855Class::InvT0_400[];
+
 const MAX31855Class::coefftable MAX31855Class::CoeffJ[];
 const MAX31855Class::coefftable MAX31855Class::CoeffK[];
+const MAX31855Class::coefftable MAX31855Class::CoeffT[];
 
 const MAX31855Class::coefftable MAX31855Class::InvCoeffJ[];
 const MAX31855Class::coefftable MAX31855Class::InvCoeffK[];
+const MAX31855Class::coefftable MAX31855Class::InvCoeffT[];
 
 MAX31855Class::MAX31855Class(PinName cs, SPIClass& spi) : _cs(cs), _spi(&spi), _spiSettings(4000000, MSBFIRST, SPI_MODE0), _coldOffset(2.10f) {
 }
