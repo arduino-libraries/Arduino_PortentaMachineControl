@@ -94,7 +94,7 @@ double MAX31855Class::polynomial(double value, int tableEntries, coefftable cons
     return NAN;
 }
 
-double MAX31855Class::coldTempTomv(double temp) {
+double MAX31855Class::tempTomv(double temp) {
     coefftable const (*table);
     int tableEntries;
     double voltage;
@@ -188,7 +188,7 @@ float MAX31855Class::readTCTemperature() {
     // this way we calculate the voltage we would have measured if cold junction
     // was at 0 degrees celsius
 
-    measuredVolt = coldTempTomv(measuredCold - _coldOffset) + (measuredTemp - measuredCold) * 0.041276f;
+    measuredVolt = tempTomv(measuredCold - _coldOffset) + (measuredTemp - measuredCold) * 0.041276f;
 
     // finally from the cold junction compensated voltage we calculate the temperature
     // using NIST polynomial approximation for the thermocouple type we are using
