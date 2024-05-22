@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <mbed.h>
 #include <SPI.h>
+#include "pins_mc.h"
 
 #define MAX31856_CONFIG_REG 0x00
 #define MAX31856_RTD_MSB_REG 0x01
@@ -47,17 +48,22 @@
 #define RTD_A 3.9083e-3
 #define RTD_B -5.775e-7
 
-#define TWO_WIRE 0
-#define THREE_WIRE 1
+#define PROBE_RTD_2W 3
+#define PROBE_RTD_3W 4
+
+#define TWO_WIRE PROBE_RTD_2W
+#define THREE_WIRE PROBE_RTD_3W
 
 class MAX31865Class {
 public:
     MAX31865Class(PinName cs = MC_RTD_CS_PIN, SPIClass& spi = SPI);
 
-    bool begin(int wires);
+    bool begin();
+    bool begin(uint8_t probeType); //Deprecate in future
     void end();
 
-    float readTemperature(float RTDnominal, float refResistor);
+    void setRTDType(uint8_t probeType);
+    float readRTDTemperature(float RTDnominal, float refResistor);
     uint8_t readFault(void);
     void clearFault(void);
     uint32_t readRTD();

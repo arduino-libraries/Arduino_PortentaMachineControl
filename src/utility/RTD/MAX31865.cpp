@@ -3,19 +3,11 @@
 MAX31865Class::MAX31865Class(PinName cs, SPIClass& spi) : _cs(cs), _spi(&spi), _spiSettings(1000000, MSBFIRST, SPI_MODE1) {
 }
 
-bool MAX31865Class::begin(int wires) {
-    _spi.begin();
+bool MAX31865Class::begin() {
     _spi->begin();
 
     pinMode(_cs, OUTPUT);
     digitalWrite(_cs, HIGH);
-
-    // sets 2 or 4 wire
-    if (wires == THREE_WIRE) {
-        writeByte(MAX31856_CONFIG_REG, (readByte(MAX31856_CONFIG_REG) | MAX31856_CONFIG_3_WIRE));
-    } else {
-        writeByte(MAX31856_CONFIG_REG, (readByte(MAX31856_CONFIG_REG) & MAX31856_CONFIG_WIRE_MASK));
-    }
 
     // disable bias
     writeByte(MAX31856_CONFIG_REG, readByte(MAX31856_CONFIG_REG) & MAX31856_CONFIG_BIAS_MASK);
@@ -30,6 +22,23 @@ bool MAX31865Class::begin(int wires) {
     writeByte(MAX31856_CONFIG_REG, readByte(MAX31856_CONFIG_REG) & MAX31856_CONFIG_60_50_HZ_FILTER_MASK);
 
     return true;
+}
+
+bool MAX31865Class::begin(uint8_t probeType) { // Deprecate in future
+    begin();
+
+    setRTDType(probeType);
+
+    return true;
+}
+
+void MAX31865Class::setRTDType(uint8_t probeType) {
+    // sets 2 or 4 wire
+    if (probeType == PROBE_RTD_3W) {
+        writeByte(MAX31856_CONFIG_REG, (readByte(MAX31856_CONFIG_REG) | MAX31856_CONFIG_3_WIRE));
+    } else {
+        writeByte(MAX31856_CONFIG_REG, (readByte(MAX31856_CONFIG_REG) & MAX31856_CONFIG_WIRE_MASK));
+    }
 }
 
 void MAX31865Class::clearFault(void) {
@@ -82,7 +91,7 @@ bool MAX31865Class::getVoltageFault(uint8_t fault) {
     return false;
 }
 
-float MAX31865Class::readTemperature(float RTDnominal, float refResistor) {
+float MAX31865Class::readRTDTemperature(float RTDnominal, float refResistor) {
     float Z1, Z2, Z3, Z4, Rt, temp;
 
     Rt = readRTD();
