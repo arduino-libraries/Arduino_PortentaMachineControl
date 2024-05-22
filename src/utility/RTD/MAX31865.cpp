@@ -128,7 +128,7 @@ uint32_t MAX31865Class::readRTD() {
     writeByte(MAX31856_CONFIG_REG, (readByte(MAX31856_CONFIG_REG) | MAX31856_CONFIG_BIAS_ON));
     delay(10);
 
-    // ONE shot cOnfIg and make readings change with readByte
+    // one shot config and make readings change with readByte
     writeByte(MAX31856_CONFIG_REG, readByte(MAX31856_CONFIG_REG) | MAX31856_CONFIG_ONE_SHOT);
     delay(65);
 
