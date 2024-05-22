@@ -1,29 +1,9 @@
-/*
-  This file is part of the MachineControl library.
-  Copyright (c) 2021 Arduino SA.
-
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
-
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
 #ifndef MAX31865_H
 #define MAX31865_H
 
 #include <Arduino.h>
 #include <mbed.h>
 #include <SPI.h>
-
 
 #define MAX31856_CONFIG_REG 0x00
 #define MAX31856_RTD_MSB_REG 0x01
@@ -70,7 +50,6 @@
 #define TWO_WIRE 0
 #define THREE_WIRE 1
 
-
 class MAX31865Class {
 public:
   MAX31865Class(PinName cs = PA_6);
@@ -89,8 +68,6 @@ public:
   bool getLowRTDINFault(uint8_t fault);
   bool getVoltageFault(uint8_t fault);
 
-
-
 private:
   uint8_t readByte(uint8_t addr);
   uint16_t readBytes(uint8_t addr);
@@ -99,6 +76,5 @@ private:
   PinName _cs;
   SPIClass& _spi;
 };
-
 
 #endif
