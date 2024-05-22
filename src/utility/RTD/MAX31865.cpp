@@ -132,9 +132,9 @@ uint32_t MAX31865Class::readRTD() {
     writeByte(MAX31856_CONFIG_REG, readByte(MAX31856_CONFIG_REG) | MAX31856_CONFIG_ONE_SHOT);
     delay(65);
 
-    //readings bytes
-    uint16_t read = (readBytes(MAX31856_RTD_MSB_REG));
-    read = read >>1;
+    //reading word
+    uint16_t read = readWord(MAX31856_RTD_MSB_REG);
+    read = read >> 1;
 
     // disable bias
     writeByte(MAX31856_CONFIG_REG, readByte(MAX31856_CONFIG_REG) & (MAX31856_CONFIG_BIAS_MASK));
@@ -158,7 +158,7 @@ uint8_t MAX31865Class::readByte(uint8_t addr) {
     return read;
 }
 
-uint16_t MAX31865Class::readBytes(uint8_t addr) {
+uint16_t MAX31865Class::readWord(uint8_t addr) {
     uint16_t read = 0x00;
 
     digitalWrite(_cs, LOW);

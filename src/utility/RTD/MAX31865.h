@@ -70,7 +70,7 @@ public:
 
 private:
     uint8_t readByte(uint8_t addr);
-    uint16_t readBytes(uint8_t addr);
+    uint16_t readWord(uint8_t addr);
     void writeByte(uint8_t addr, uint8_t data);
 
     PinName _cs;
