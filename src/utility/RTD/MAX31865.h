@@ -52,7 +52,7 @@
 
 class MAX31865Class {
 public:
-    MAX31865Class(PinName cs = PA_6);
+    MAX31865Class(PinName cs = MC_RTD_CS_PIN, SPIClass& spi = SPI);
 
     bool begin(int wires);
     void end();
@@ -74,7 +74,8 @@ private:
     void writeByte(uint8_t addr, uint8_t data);
 
     PinName _cs;
-    SPIClass& _spi;
+    SPIClass* _spi;
+    SPISettings _spiSettings;
 };
 
 #endif

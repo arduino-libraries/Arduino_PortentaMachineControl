@@ -1,12 +1,11 @@
 #include "MAX31865.h"
 
-MAX31865Class::MAX31865Class(PinName cs) : _spi(SPI), _cs(cs) {
+MAX31865Class::MAX31865Class(PinName cs, SPIClass& spi) : _cs(cs), _spi(&spi), _spiSettings(1000000, MSBFIRST, SPI_MODE1) {
 }
-
-static SPISettings _spiSettings(1000000, MSBFIRST, SPI_MODE1);
 
 bool MAX31865Class::begin(int wires) {
     _spi.begin();
+    _spi->begin();
 
     pinMode(_cs, OUTPUT);
     digitalWrite(_cs, HIGH);
@@ -149,10 +148,10 @@ uint8_t MAX31865Class::readByte(uint8_t addr) {
 
     digitalWrite(_cs, LOW);
 
-    _spi.beginTransaction(_spiSettings);
-    _spi.transfer(addr);
-    _spi.transfer(&read,1);
-    _spi.endTransaction();
+    _spi->beginTransaction(_spiSettings);
+    _spi->transfer(addr);
+    _spi->transfer(&read,1);
+    _spi->endTransaction();
 
     digitalWrite(_cs, HIGH);
 
@@ -164,13 +163,13 @@ uint16_t MAX31865Class::readBytes(uint8_t addr) {
 
     digitalWrite(_cs, LOW);
 
-    _spi.beginTransaction(_spiSettings);
-    _spi.transfer(addr);
+    _spi->beginTransaction(_spiSettings);
+    _spi->transfer(addr);
     for (int i = 0; i < 2; i++) {
         read = read << 8;
-        read |= _spi.transfer(0);
+        read |= _spi->transfer(0);
     }
-    _spi.endTransaction();
+    _spi->endTransaction();
 
     digitalWrite(_cs, HIGH);
 
@@ -183,9 +182,9 @@ void MAX31865Class::writeByte(uint8_t addr, uint8_t data) {
 
     digitalWrite(_cs, LOW);
 
-    _spi.beginTransaction(_spiSettings);
-    _spi.transfer(buffer,2);
-    _spi.endTransaction();
+    _spi->beginTransaction(_spiSettings);
+    _spi->transfer(buffer,2);
+    _spi->endTransaction();
 
     digitalWrite(_cs, HIGH);
 }
