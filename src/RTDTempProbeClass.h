@@ -3,7 +3,7 @@
  * @author Leonardo Cavagnis
  * @brief Header file for the Resistance Temperature Detector (RTD) temperature sensor connector of the Portenta Machine Control.
  *
- * This library allows interfacing with RTD temperature sensors using the MAX31865 digital converter. 
+ * This library allows interfacing with RTD temperature sensors using the MAX31865 digital converter.
  * It provides methods to select input channel, enabling and disabling the sensor, and reading temperature values.
  */
 
@@ -11,8 +11,7 @@
 #define __RTD_TEMPPROBE_CLASS_H
 
 /* Includes -------------------------------------------------------------------*/
-#include "utility/MAX31865/MAX31865.h"
-#include "utility/THERMOCOUPLE/MAX31855.h"
+#include "TempProbeClass.h"
 #include <Arduino.h>
 #include <mbed.h>
 #include "pins_mc.h"
@@ -26,7 +25,7 @@
  * This class allows interfacing with RTD temperature sensors through the use of the MAX31865 digital converter.
  * It provides methods to configure and read temperature values from the selected input channel.
  */
-class RTDTempProbeClass: public MAX31865Class {
+class RTDTempProbeClass: public TempProbeClass {
 public:
     /**
      * @brief Construct a RTDTempProbeClass object.
@@ -39,12 +38,12 @@ public:
      * @param ch_sel2_pin The pin number for the third channel selection bit.
      * @param rtd_th_pin The pin number for the RTD connection.
      */
-    RTDTempProbeClass(PinName rtd_cs_pin = MC_RTD_CS_PIN, 
-                     PinName ch_sel0_pin = MC_RTD_SEL0_PIN, 
-                     PinName ch_sel1_pin = MC_RTD_SEL1_PIN, 
-                     PinName ch_sel2_pin = MC_RTD_SEL2_PIN, 
+    RTDTempProbeClass(PinName rtd_cs_pin = MC_RTD_CS_PIN,
+                     PinName ch_sel0_pin = MC_TP_SEL0_PIN,
+                     PinName ch_sel1_pin = MC_TP_SEL1_PIN,
+                     PinName ch_sel2_pin = MC_TP_SEL2_PIN,
                      PinName rtd_th_pin = MC_RTD_TH_PIN);
-   
+
     /**
      * @brief Destruct the RTDTempProbeClass object.
      *
@@ -53,12 +52,12 @@ public:
     ~RTDTempProbeClass();
 
     /**
-     * @brief Initialize the RTDTempProbeClass with the specified I/O address.
+     * @brief Initialize the RTDTempProbeClass with the specified RTD wiring type.
      *
-     * @param io_address The I/O address for communication with the digital converters (default is THREE_WIRE).
+     * @param rtd_type The RTD wiring type for connection to the digital converters (default is PROBE_RTD_3W).
      * @return true If initialization is successful, false otherwise.
      */
-    bool begin(uint8_t io_address = THREE_WIRE);
+    bool begin(uint8_t rtd_type = PROBE_RTD_3W);
 
     /**
      * @brief Disable the temperature sensors and release any resources.
@@ -72,22 +71,16 @@ public:
      */
     void selectChannel(int channel);
 
+    /**
+     * @brief Read temperature value of the connected RTD
+     *
+     * @param RTDnominal The 'nominal' resistance of the RTD sensor at 0 °C
+     * @param refResistor The value of the reference sensor
+     */
+    float readTemperature(float RTDnominal, float refResistor);
+
 private:
-    PinName _rtd_cs;  // Pin for the CS of RTD
-    PinName _ch_sel0; // Pin for the first channel selection bit
-    PinName _ch_sel1; // Pin for the second channel selection bit
-    PinName _ch_sel2; // Pin for the third channel selection bit
-    PinName _rtd_th;  // Pin for the RTD connection
-
-    /**
-     * @brief Enable the chip select (CS) of the MAX31865 digital converter.
-     */
-    void _enable();
-
-    /**
-     * @brief Disable the chip select (CS) of the MAX31865 digital converter.
-     */
-    void _disable();
+    uint8_t _current_probe_type;
 };
 
 extern RTDTempProbeClass MachineControl_RTDTempProbe;
