@@ -16,7 +16,7 @@ bool MAX31865Class::begin() {
     writeByte(MAX31856_CONFIG_REG, readByte(MAX31856_CONFIG_REG) & MAX31856_CONFIG_CONV_MODE_MASK);
 
     // clear fault
-    writeByte(MAX31856_CONFIG_REG, (readByte(MAX31856_CONFIG_REG) & MAX31856_CONFIG_CLEAR_FAULT_CYCLE)| MAX31856_CONFIG_CLEAR_FAULT);
+    writeByte(MAX31856_CONFIG_REG, (readByte(MAX31856_CONFIG_REG) & MAX31856_CONFIG_CLEAR_FAULT_CYCLE) | MAX31856_CONFIG_CLEAR_FAULT);
 
     // set filter frequency
     writeByte(MAX31856_CONFIG_REG, readByte(MAX31856_CONFIG_REG) & MAX31856_CONFIG_60_50_HZ_FILTER_MASK);
@@ -35,21 +35,38 @@ bool MAX31865Class::begin(uint8_t probeType) { // Deprecate in future
 void MAX31865Class::setRTDType(uint8_t probeType) {
     // sets 2 or 4 wire
     if (probeType == PROBE_RTD_3W) {
-        writeByte(MAX31856_CONFIG_REG, (readByte(MAX31856_CONFIG_REG) | MAX31856_CONFIG_3_WIRE));
+        writeByte(MAX31856_CONFIG_REG, readByte(MAX31856_CONFIG_REG) | MAX31856_CONFIG_3_WIRE);
     } else {
-        writeByte(MAX31856_CONFIG_REG, (readByte(MAX31856_CONFIG_REG) & MAX31856_CONFIG_WIRE_MASK));
+        writeByte(MAX31856_CONFIG_REG, readByte(MAX31856_CONFIG_REG) & MAX31856_CONFIG_WIRE_MASK);
     }
+    _current_probe_type = probeType;
+}
+
+uint8_t MAX31865Class::getRTDType() {
+    return _current_probe_type;
 }
 
 void MAX31865Class::clearFault(void) {
+    return clearRTDFault();
+}
+
+void MAX31865Class::clearRTDFault(void) {
     writeByte(MAX31856_CONFIG_REG, (readByte(MAX31856_CONFIG_REG) & MAX31856_CONFIG_CLEAR_FAULT_CYCLE) | MAX31856_CONFIG_CLEAR_FAULT);
 }
 
 uint8_t MAX31865Class::readFault(void) {
+    return readRTDFault();
+}
+
+uint8_t MAX31865Class::readRTDFault(void) {
     return readByte(MAX31856_FAULT_STATUS_REG);
 }
 
 bool MAX31865Class::getHighThresholdFault(uint8_t fault) {
+    return getRTDHighThresholdFault(fault);
+}
+
+bool MAX31865Class::getRTDHighThresholdFault(uint8_t fault) {
     if (fault & MAX31865_FAULT_HIGH_THRESH) {
         return true;
     }
@@ -57,6 +74,10 @@ bool MAX31865Class::getHighThresholdFault(uint8_t fault) {
 }
 
 bool MAX31865Class::getLowThresholdFault(uint8_t fault) {
+    return getRTDLowThresholdFault(fault);
+}
+
+bool MAX31865Class::getRTDLowThresholdFault(uint8_t fault) {
     if (fault & MAX31865_FAULT_LOW_THRESH) {
         return true;
     }
@@ -64,6 +85,10 @@ bool MAX31865Class::getLowThresholdFault(uint8_t fault) {
 }
 
 bool MAX31865Class::getLowREFINFault(uint8_t fault) {
+    return getRTDLowREFINFault(fault);
+}
+
+bool MAX31865Class::getRTDLowREFINFault(uint8_t fault) {
     if (fault & MAX31865_FAULT_LOW_REFIN) {
         return true;
     }
@@ -71,6 +96,10 @@ bool MAX31865Class::getLowREFINFault(uint8_t fault) {
 }
 
 bool MAX31865Class::getHighREFINFault(uint8_t fault) {
+    return getRTDHighREFINFault(fault);
+}
+
+bool MAX31865Class::getRTDHighREFINFault(uint8_t fault) {
     if (fault & MAX31865_FAULT_HIGH_REFIN) {
         return true;
     }
@@ -78,6 +107,10 @@ bool MAX31865Class::getHighREFINFault(uint8_t fault) {
 }
 
 bool MAX31865Class::getLowRTDINFault(uint8_t fault) {
+    return getRTDLowRTDINFault(fault);
+}
+
+bool MAX31865Class::getRTDLowRTDINFault(uint8_t fault) {
     if (fault & MAX31865_FAULT_LOW_RTDIN) {
         return true;
     }
@@ -85,13 +118,17 @@ bool MAX31865Class::getLowRTDINFault(uint8_t fault) {
 }
 
 bool MAX31865Class::getVoltageFault(uint8_t fault) {
+    return getRTDVoltageFault(fault);
+}
+
+bool MAX31865Class::getRTDVoltageFault(uint8_t fault) {
     if (fault & MAX31865_FAULT_OVER_UNDER_VOLTAGE) {
         return true;
     }
     return false;
 }
 
-float MAX31865Class::readRTDTemperature(float RTDnominal, float refResistor) {
+float MAX31865Class::convertRTDTemperature(float RTDnominal, float refResistor) {
     float Z1, Z2, Z3, Z4, Rt, temp;
 
     Rt = readRTD();
@@ -134,7 +171,7 @@ uint32_t MAX31865Class::readRTD() {
     writeByte(MAX31856_CONFIG_REG, (readByte(MAX31856_CONFIG_REG) & MAX31856_CONFIG_CLEAR_FAULT_CYCLE) | MAX31856_CONFIG_CLEAR_FAULT);
 
     // enable bias
-    writeByte(MAX31856_CONFIG_REG, (readByte(MAX31856_CONFIG_REG) | MAX31856_CONFIG_BIAS_ON));
+    writeByte(MAX31856_CONFIG_REG, readByte(MAX31856_CONFIG_REG) | MAX31856_CONFIG_BIAS_ON);
     delay(10);
 
     // one shot config and make readings change with readByte
@@ -146,7 +183,7 @@ uint32_t MAX31865Class::readRTD() {
     read = read >> 1;
 
     // disable bias
-    writeByte(MAX31856_CONFIG_REG, readByte(MAX31856_CONFIG_REG) & (MAX31856_CONFIG_BIAS_MASK));
+    writeByte(MAX31856_CONFIG_REG, readByte(MAX31856_CONFIG_REG) & MAX31856_CONFIG_BIAS_MASK);
 
     return read;
 }

@@ -63,16 +63,29 @@ public:
     void end();
 
     void setRTDType(uint8_t probeType);
-    float readRTDTemperature(float RTDnominal, float refResistor);
-    uint8_t readFault(void);
-    void clearFault(void);
+    uint8_t getRTDType();
+
+    float convertRTDTemperature(float RTDnominal, float refResistor);
+
+    uint8_t readFault(void); //Deprecate in future
+    uint8_t readRTDFault(void);
+    void clearFault(void); //Deprecate in future
+    void clearRTDFault(void);
+
     uint32_t readRTD();
-    bool getHighThresholdFault(uint8_t fault);
-    bool getLowThresholdFault(uint8_t fault);
-    bool getLowREFINFault(uint8_t fault);
-    bool getHighREFINFault(uint8_t fault);
-    bool getLowRTDINFault(uint8_t fault);
-    bool getVoltageFault(uint8_t fault);
+
+    bool getHighThresholdFault(uint8_t fault); //Deprecate in future
+    bool getRTDHighThresholdFault(uint8_t fault);
+    bool getLowThresholdFault(uint8_t fault); //Deprecate in future
+    bool getRTDLowThresholdFault(uint8_t fault);
+    bool getLowREFINFault(uint8_t fault); //Deprecate in future
+    bool getRTDLowREFINFault(uint8_t fault);
+    bool getHighREFINFault(uint8_t fault); //Deprecate in future
+    bool getRTDHighREFINFault(uint8_t fault);
+    bool getLowRTDINFault(uint8_t fault); //Deprecate in future
+    bool getRTDLowRTDINFault(uint8_t fault);
+    bool getVoltageFault(uint8_t fault); //Deprecate in future
+    bool getRTDVoltageFault(uint8_t fault);
 
 private:
     uint8_t readByte(uint8_t addr);
@@ -82,6 +95,7 @@ private:
     PinName _cs;
     SPIClass* _spi;
     SPISettings _spiSettings;
+    uint8_t _current_probe_type;
 };
 
 #endif

@@ -145,7 +145,7 @@ double MAX31855Class::readTCVoltage() {
     rawword = readSensor();
 
     // Check for reading error
-    lastFault = rawword & _faultMask;
+    _lastFault = rawword & _faultMask;
     if (_lastFault) {
         return NAN;
     }
@@ -193,14 +193,16 @@ double MAX31855Class::readTCVoltage() {
 }
 
 double MAX31855Class::readTCTemperature() {
-    measuredVolt = readTCVoltage();
-
     // finally from the cold junction compensated voltage we calculate the temperature
     // using NIST polynomial approximation for the thermocouple type we are using
-    return mvtoTemp(measuredVolt);
+    return mvtoTemp(readTCVoltage());
 }
 
 float MAX31855Class::readReferenceTemperature() {
+    return readTCReferenceTemperature();
+}
+
+float MAX31855Class::readTCReferenceTemperature() {
     //TODO. Actually use TC _current_probe_type and _coldOffset
     uint32_t rawword;
     float referenceTemperature;
@@ -225,18 +227,34 @@ float MAX31855Class::readReferenceTemperature() {
 }
 
 void MAX31855Class::setColdOffset(float offset) {
+    setTCColdOffset(offset);
+}
+
+void MAX31855Class::setTCColdOffset(float offset) {
     _coldOffset = offset;
 }
 
 float MAX31855Class::getColdOffset() {
+    return getTCColdOffset();
+}
+
+float MAX31855Class::getTCColdOffset() {
     return _coldOffset;
 }
 
 void MAX31855Class::setFaultChecks(uint8_t faults) {
+    setTCFaultChecks(faults);
+}
+
+void MAX31855Class::setTCFaultChecks(uint8_t faults) {
     _faultMask = faults & TC_FAULT_ALL;
 }
 
 uint8_t MAX31855Class::getLastFault() {
+    return getTCLastFault();
+}
+
+uint8_t MAX31855Class::getTCLastFault() {
     uint8_t tempLastFault = _lastFault;
     _lastFault = 0;
     return tempLastFault;
@@ -246,6 +264,6 @@ void MAX31855Class::setTCType(uint8_t type) {
     _current_probe_type = type;
 }
 
-void MAX31855Class::getTCType()) {
+uint8_t MAX31855Class::getTCType() {
     return _current_probe_type;
 }

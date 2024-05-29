@@ -6,6 +6,7 @@
 #include "DigitalOutputsClass.h"
 #include "ProgrammableDIOClass.h"
 #include "ProgrammableDINClass.h"
+#include "TempProbeClass.h"
 #include "RTDTempProbeClass.h"
 #include "TCTempProbeClass.h"
 #include "RtcControllerClass.h"

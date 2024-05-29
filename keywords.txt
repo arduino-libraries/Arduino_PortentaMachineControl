@@ -14,6 +14,7 @@ MachineControl_Encoders KEYWORD1
 MachineControl_DigitalInputs KEYWORD1
 MachineControl_DigitalProgrammables KEYWORD1
 MachineControl_RS485Comm KEYWORD1
+MachineControl_TempProbe KEYWORD1
 MachineControl_RTDTempProbe KEYWORD1
 MachineControl_RTCController KEYWORD1
 MachineControl_TCTempProbe KEYWORD1

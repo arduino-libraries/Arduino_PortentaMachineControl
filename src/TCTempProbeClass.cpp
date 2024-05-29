@@ -16,86 +16,32 @@ uint8_t* boardInfo();
 
 /* Functions -----------------------------------------------------------------*/
 TCTempProbeClass::TCTempProbeClass(PinName tc_cs_pin,
-                                     PinName ch_sel0_pin, 
+                                     PinName ch_sel0_pin,
                                      PinName ch_sel1_pin,
                                      PinName ch_sel2_pin)
-: MAX31855Class(tc_cs_pin), _tc_cs{tc_cs_pin}, _ch_sel0{ch_sel0_pin}, _ch_sel1{ch_sel1_pin}, _ch_sel2{ch_sel2_pin}                  
-{ }
+: TempProbeClass(ch_sel0_pin, ch_sel1_pin, ch_sel2_pin, tc_cs_pin, MC_RTD_CS_PIN, MC_RTD_TH_PIN) {
+}
 
-TCTempProbeClass::~TCTempProbeClass() 
-{ }
+TCTempProbeClass::~TCTempProbeClass() {
+}
 
 bool TCTempProbeClass::begin() {
-    MAX31855Class::begin();
-
-    pinMode(_ch_sel0, OUTPUT);
-    pinMode(_ch_sel1, OUTPUT);
-    pinMode(_ch_sel2, OUTPUT);
-
-    pinMode(_tc_cs, OUTPUT);
-
-    _enable();
+    TempProbeClass::beginTC();
 
     return true;
 }
 
-void TCTempProbeClass::selectChannel(int channel) {
-
-#ifdef TRY_REV2_RECOGNITION
-    // check if OTP data is present AND the board is mounted on a r2 carrier
-    auto info = (PortentaBoardInfo*)boardInfo();
-    if (info->magic == 0xB5 && info->carrier == PMC_R2_SKU) {
-        // reverse channels 0 and 2
-        switch (channel) {
-            case 0:
-                channel = 2;
-                break;
-            case 2:
-                channel = 0;
-                break;
-            default:
-                break;
-        }
-    }
-#endif
-#undef TRY_REV2_RECOGNITION
-    switch(channel) {
-        case 0:
-            digitalWrite(_ch_sel0, HIGH);
-            digitalWrite(_ch_sel1, LOW);
-            digitalWrite(_ch_sel2, LOW);
-            break;
-        case 1:
-            digitalWrite(_ch_sel0, LOW);
-            digitalWrite(_ch_sel1, HIGH);
-            digitalWrite(_ch_sel2, LOW);
-            break;
-        case 2:
-            digitalWrite(_ch_sel0, LOW);
-            digitalWrite(_ch_sel1, LOW);
-            digitalWrite(_ch_sel2, HIGH);
-            break;
-        default:
-            digitalWrite(_ch_sel0, LOW);
-            digitalWrite(_ch_sel1, LOW);
-            digitalWrite(_ch_sel2, LOW);
-            break;
-    }
-    delay(150);
-}
-
 void TCTempProbeClass::end() {
-    MAX31855Class::end();
-    
-    _disable();
+    TempProbeClass::endTC();
 }
 
-void TCTempProbeClass::_enable() {
-    digitalWrite(_tc_cs, LOW);
+void TCTempProbeClass::selectChannel(int channel) {
+    TempProbeClass::selectChannel(channel, PROBE_TC_K);
 }
 
-void TCTempProbeClass::_disable() {
-    digitalWrite(_tc_cs, HIGH);
+float TCTempProbeClass::readTemperature(uint8_t type) {
+    TempProbeClass::setTCType(type);
+    return TempProbeClass::readTCTemperature();
 }
 
 TCTempProbeClass MachineControl_TCTempProbe;

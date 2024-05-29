@@ -30,12 +30,17 @@ public:
     double readTCVoltage();
     double readTCTemperature();
     float readReferenceTemperature();
+    float readTCReferenceTemperature();
 
-    void setColdOffset(float offset);
-    float getColdOffset();
+    void setColdOffset(float offset); //Deprecate in future
+    void setTCColdOffset(float offset);
+    float getColdOffset(); //Deprecate in future
+    float getTCColdOffset();
 
-    void setFaultChecks(uint8_t faults);
-    uint8_t getLastFault();
+    void setFaultChecks(uint8_t faults); //Deprecate in future
+    void setTCFaultChecks(uint8_t faults);
+    uint8_t getLastFault(); //Deprecate in future
+    uint8_t getTCLastFault();
 
     void setTCType(uint8_t type);
     uint8_t getTCType();
@@ -43,7 +48,7 @@ public:
 private:
     float _coldOffset;
     uint8_t _faultMask = TC_FAULT_ALL;
-    uint8_t _lastFault = 0;
+    uint8_t _lastFault = TC_FAULT_NONE;
     uint8_t _current_probe_type;
     PinName _cs;
     SPIClass* _spi;

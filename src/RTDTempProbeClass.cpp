@@ -16,90 +16,34 @@ uint8_t* boardInfo();
 
 /* Functions -----------------------------------------------------------------*/
 RTDTempProbeClass::RTDTempProbeClass(PinName rtd_cs_pin,
-                                     PinName ch_sel0_pin, 
+                                     PinName ch_sel0_pin,
                                      PinName ch_sel1_pin,
                                      PinName ch_sel2_pin,
                                      PinName rtd_th_pin)
-: MAX31865Class(rtd_cs_pin), _rtd_cs{rtd_cs_pin}, _ch_sel0{ch_sel0_pin}, _ch_sel1{ch_sel1_pin}, _ch_sel2{ch_sel2_pin}, _rtd_th{rtd_th_pin}                     
-{ }
+: TempProbeClass(ch_sel0_pin, ch_sel1_pin, ch_sel2_pin, MC_TC_CS_PIN, rtd_cs_pin, rtd_th_pin) {
+}
 
-RTDTempProbeClass::~RTDTempProbeClass() 
-{ }
+RTDTempProbeClass::~RTDTempProbeClass() {
+}
 
-bool RTDTempProbeClass::begin(uint8_t io_address) {
-    MAX31865Class::begin(io_address);
-
-    pinMode(_ch_sel0, OUTPUT);
-    pinMode(_ch_sel1, OUTPUT);
-    pinMode(_ch_sel2, OUTPUT);
-    pinMode(_rtd_th, OUTPUT);
-
-    pinMode(_rtd_cs, OUTPUT);
-
-    _enable();
+bool RTDTempProbeClass::begin(uint8_t rtd_type) {
+    TempProbeClass::beginRTD();
+    TempProbeClass::setRTDType(rtd_type);
+    _current_probe_type = rtd_type;
 
     return true;
 }
 
-void RTDTempProbeClass::selectChannel(int channel) {
-
-#ifdef TRY_REV2_RECOGNITION
-    // check if OTP data is present AND the board is mounted on a r2 carrier
-    auto info = (PortentaBoardInfo*)boardInfo();
-    if (info->magic == 0xB5 && info->carrier == PMC_R2_SKU) {
-        // reverse channels 0 and 2
-        switch (channel) {
-            case 0:
-                channel = 2;
-                break;
-            case 2:
-                channel = 0;
-                break;
-            default:
-                break;
-        }
-    }
-#endif
-#undef TRY_REV2_RECOGNITION
-    switch(channel) {
-        case 0:
-            digitalWrite(_ch_sel0, HIGH);
-            digitalWrite(_ch_sel1, LOW);
-            digitalWrite(_ch_sel2, LOW);
-            break;
-        case 1:
-            digitalWrite(_ch_sel0, LOW);
-            digitalWrite(_ch_sel1, HIGH);
-            digitalWrite(_ch_sel2, LOW);
-            break;
-        case 2:
-            digitalWrite(_ch_sel0, LOW);
-            digitalWrite(_ch_sel1, LOW);
-            digitalWrite(_ch_sel2, HIGH);
-            break;
-        default:
-            digitalWrite(_ch_sel0, LOW);
-            digitalWrite(_ch_sel1, LOW);
-            digitalWrite(_ch_sel2, LOW);
-            break;
-    }
-    delay(150);
-}
-
 void RTDTempProbeClass::end() {
-    MAX31865Class::end();
-    
-    _disable();
+    TempProbeClass::endRTD();
 }
 
-void RTDTempProbeClass::_enable() {
-    digitalWrite(_rtd_th, HIGH);
-
-    digitalWrite(_rtd_cs, LOW);
+void RTDTempProbeClass::selectChannel(int channel) {
+    TempProbeClass::selectChannel(channel, _current_probe_type);
 }
 
-void RTDTempProbeClass::_disable() {
-    digitalWrite(_rtd_cs, HIGH);
+float RTDTempProbeClass::readTemperature(float RTDnominal, float refResistor) {
+    return TempProbeClass::convertRTDTemperature(RTDnominal, refResistor);
 }
 
 RTDTempProbeClass MachineControl_RTDTempProbe;
