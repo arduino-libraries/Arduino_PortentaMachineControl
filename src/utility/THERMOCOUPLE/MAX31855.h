@@ -95,7 +95,7 @@ private:
     };
 
     static constexpr coefftable CoeffT []= {
-        {0,-270, NULL},
+        {0,-270.0f, NULL},
         {sizeof(Tm270_0) / sizeof(double), 0.0f, &Tm270_0[0]},
         {sizeof(T0_400) / sizeof(double), 400.0f, &T0_400[0]}
     };

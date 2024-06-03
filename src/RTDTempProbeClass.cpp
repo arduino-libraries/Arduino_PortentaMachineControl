@@ -7,13 +7,6 @@
 /* Includes -----------------------------------------------------------------*/
 #include "RTDTempProbeClass.h"
 
-#if __has_include("portenta_info.h")
-#include "portenta_info.h"
-#define TRY_REV2_RECOGNITION
-uint8_t* boardInfo();
-#define PMC_R2_SKU  (24 << 8 | 3)
-#endif
-
 /* Functions -----------------------------------------------------------------*/
 RTDTempProbeClass::RTDTempProbeClass(PinName rtd_cs_pin,
                                      PinName ch_sel0_pin,

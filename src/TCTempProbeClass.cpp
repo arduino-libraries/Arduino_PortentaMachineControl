@@ -7,13 +7,6 @@
 /* Includes -----------------------------------------------------------------*/
 #include "TCTempProbeClass.h"
 
-#if __has_include("portenta_info.h")
-#include "portenta_info.h"
-#define TRY_REV2_RECOGNITION
-uint8_t* boardInfo();
-#define PMC_R2_SKU  (24 << 8 | 3)
-#endif
-
 /* Functions -----------------------------------------------------------------*/
 TCTempProbeClass::TCTempProbeClass(PinName tc_cs_pin,
                                      PinName ch_sel0_pin,

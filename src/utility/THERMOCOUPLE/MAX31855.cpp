@@ -107,6 +107,10 @@ double MAX31855Class::tempTomv(double temp) {
             table = CoeffK;
             tableEntries = sizeof(CoeffK) / sizeof(coefftable);
         break;
+        case PROBE_TC_T:
+            table = CoeffT;
+            tableEntries = sizeof(CoeffT) / sizeof(coefftable);
+        break;
     }
     voltage = polynomial(temp, tableEntries, table);
     // special case... for K probes in temperature range 0-1372 we need
@@ -130,6 +134,10 @@ double MAX31855Class::mvtoTemp(double voltage) {
             table = InvCoeffK;
             tableEntries = sizeof(InvCoeffJ) / sizeof(coefftable);
         break;
+        case PROBE_TC_T:
+            table = InvCoeffT;
+            tableEntries = sizeof(InvCoeffT) / sizeof(coefftable);
+        break;
     }
     return polynomial(voltage, tableEntries, table);
 }
@@ -151,7 +159,7 @@ double MAX31855Class::readTCVoltage() {
     }
 
     // The cold junction temperature is stored in the last 14 word's bits
-    // whereas the ttermocouple temperature (non linearized) is in the topmost 18 bits
+    // whereas the thermocouple temperature (non linearized) is in the topmost 18 bits
     // sent by the Thermocouple-to-Digital Converter
 
     // sign extend thermocouple value
@@ -176,7 +184,7 @@ double MAX31855Class::readTCVoltage() {
     // convert it to degrees
     measuredCold = (measuredColdInt / 16.0f);
     // now the tricky part... since MAX31855K is considering a linear response
-    // and is trimed for K thermocouples, we have to convert the reading back
+    // and is trimmed for K thermocouples, we have to convert the reading back
     // to mV and then use NIST polynomial approximation to determine temperature
     // we know that reading from chip is calculated as:
     // temp = chip_temperature + thermocouple_voltage/0.041276f
