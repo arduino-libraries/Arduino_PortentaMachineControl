@@ -72,18 +72,17 @@
 /* RTC */
 #define MC_RTC_INT_PIN      PB_9
 
+/* Temperature probe */
+#define MC_TP_SEL0_PIN     PD_6
+#define MC_TP_SEL1_PIN     PI_4
+#define MC_TP_SEL2_PIN     PG_10
+
 /* RTD Temperature probe */
 #define MC_RTD_CS_PIN       PA_6
-#define MC_RTD_SEL0_PIN     PD_6
-#define MC_RTD_SEL1_PIN     PI_4
-#define MC_RTD_SEL2_PIN     PG_10
 #define MC_RTD_TH_PIN       PC_15
 
 /* TC Temperature probe */
 #define MC_TC_CS_PIN        PI_0
-#define MC_TC_SEL0_PIN      MC_RTD_SEL0_PIN
-#define MC_TC_SEL1_PIN      MC_RTD_SEL1_PIN
-#define MC_TC_SEL2_PIN      MC_RTD_SEL2_PIN
 
 /* USB */
 #define MC_USB_PWR_PIN      PB_14

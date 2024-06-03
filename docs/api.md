@@ -13,6 +13,7 @@
 `class` [`RTDTempProbeClass`](#class-rtdtempprobeclass) | Class for managing the Resistance Temperature Detector (RTD) temperature sensor connector of the Portenta Machine Control.
 `class` [`RtcControllerClass`](#class-rtccontrollerclass) | Class for controlling the PCF8563T RTC of the Portenta Machine Control.
 `class` [`TCTempProbeClass`](#class-tctempprobeclass) | Class for managing the Thermocouple (TC) temperature sensor connector of the Portenta Machine Control.
+`class` [`TempProbeClass`](#class-tempprobeclass) | Class for managing the temperature sensor connector in mixed configurations of the Portenta Machine Control.
 `class` [`USBClass`](#class-usbclass) | Class for managing the USB functionality of the Portenta Machine Control.
 
 # class `AnalogInClass`
@@ -128,11 +129,12 @@ Class for managing RTD temperature sensor inputs of the Portenta Machine Control
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
-`public ` [`RTDTempProbeClass`](#public-rtdtempprobeclasspinname-rtd_cs_pin--mc_rtd_cs_pin-pinname-ch_sel0_pin--mc_rtd_sel0_pin-pinname-ch_sel1_pin--mc_rtd_sel1_pin-pinname-ch_sel2_pin--mc_rtd_sel2_pin-pinname-rtd_th_pin--mc_rtd_th_pin)`(PinName rtd_cs_pin, PinName ch_sel0_pin, PinName ch_sel1_pin, PinName ch_sel2_pin, PinName rtd_th_pin)` | Construct a RTDTempProbeClass object.
+`public ` [`RTDTempProbeClass`](#public-rtdtempprobeclasspinname-rtd_cs_pin--mc_rtd_cs_pin-pinname-ch_sel0_pin--mc_tp_sel0_pin-pinname-ch_sel1_pin--mc_tp_sel1_pin-pinname-ch_sel2_pin--mc_tp_sel2_pin-pinname-rtd_th_pin--mc_rtd_th_pin)`(PinName rtd_cs_pin, PinName ch_sel0_pin, PinName ch_sel1_pin, PinName ch_sel2_pin, PinName rtd_th_pin)` | Construct a RTDTempProbeClass object.
 `public ` [`~RTDTempProbeClass`](#public-rtdtempprobeclass)`()` | Destruct the RTDTempProbeClass object.
-`public bool` [`begin`](#public-bool-beginuint8_t-io_address--three_wire)`(uint8_t io_address)` | Initialize the RTDTempProbeClass with the specified I/O address.
+`public bool` [`begin`](#public-bool-beginuint8_t-io_address--probe_rtd_3w)`(uint8_t io_address)` | Initialize the RTDTempProbeClass with the specified I/O address.
 `public void` [`end`](#public-void-end)`()` | Disable the temperature sensors and release any resources.
 `public void` [`selectChannel`](#public-void-selectchannelint-channel)`(int channel)` | Select the input channel to be read (3 channels available).
+`public float` [`readTemperature`](#public-float-readTemperaturefloat-rtdnominal-float-refresistor)`(float RTDnominal, float refResistor)` | Read temperature value of the connected RTD.
 
 # class `RtcControllerClass`
 Class for controlling the PCF8563T RTC.
@@ -151,11 +153,27 @@ Class for managing thermocouples temperature sensor of the Portenta Machine Cont
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
-`public ` [`TCTempProbeClass`](#public-tctempprobeclasspinname-tc_cs_pin--mc_tc_cs_pin-pinname-ch_sel0_pin--mc_tc_sel0_pin-pinname-ch_sel1_pin--mc_tc_sel1_pin-pinname-ch_sel2_pin--mc_tc_sel2_pin)`(PinName tc_cs_pin, PinName ch_sel0_pin, PinName ch_sel1_pin, PinName ch_sel2_pin)` | Construct a TCTempProbeClass object.
+`public ` [`TCTempProbeClass`](#public-tctempprobeclasspinname-tc_cs_pin--mc_tc_cs_pin-pinname-ch_sel0_pin--mc_tp_sel0_pin-pinname-ch_sel1_pin--mc_tp_sel1_pin-pinname-ch_sel2_pin--mc_tp_sel2_pin)`(PinName tc_cs_pin, PinName ch_sel0_pin, PinName ch_sel1_pin, PinName ch_sel2_pin)` | Construct a TCTempProbeClass object.
 `public ` [`~TCTempProbeClass`](#public-tctempprobeclass)`()` | Destruct the TCTempProbeClass object.
 `public bool` [`begin`](#public-bool-begin)`()` | Initialize the TCTempProbeClass.
 `public void` [`end`](#public-void-end)`()` | Disable the temperature sensors and release any resources.
 `public void` [`selectChannel`](#public-void-selectchannelint-channel)`(int channel)` | Select the input channel to be read (3 channels available).
+`public float` [`readTemperature`](#public-float-readTemperatureuint8_t-type--probe_tc_k)`(uint8_t type)` | Read temperature value of the connected thermocouple.
+
+# class `TempProbeClass`
+Class for managing Resistance Temperature Detector (RTD) and Thermocouple (TC) temperature sensor connectors of the Portenta Machine Control.
+
+## Summary
+
+ Members                        | Descriptions                                
+--------------------------------|---------------------------------------------
+`public ` [`TempProbeClass`](#public-tctempprobeclasspinname-ch_sel0_pin--mc_tp_sel0_pin-pinname-ch_sel1_pin--mc_tp_sel1_pin-pinname-ch_sel2_pin--mc_tp_sel2_pin-pinname-tc_cs_pin--mc_tc_cs_pin-pinname-rtd_cs_pin--mc_rtd_cs_pin-pinname-rtd_th_pin--mc_rtd_th_pin)`(PinName ch_sel0_pin, PinName ch_sel1_pin, PinName ch_sel2_pin, PinName tc_cs_pin, PinName rtd_cs_pin, PinName rtd_th_pin)` | Construct a TempProbeClass object.
+`public ` [`~TempProbeClass`](#public-tctempprobeclass)`()` | Destruct the TCTempProbeClass object.
+`public bool` [`beginTC`](#public-bool-begintc)`()` | Initialize the TempProbeClass for TC measurements.
+`public bool` [`beginRTD`](#public-bool-beginrtd)`()` | Initialize the TempProbeClass for RTD measurements.
+`public void` [`endTC`](#public-void-endtc)`()` | Disable the TC temperature sensors and release any resources.
+`public void` [`endRTD`](#public-void-endrtd)`()` | Disable the temperature sensors and release any resources.
+`public void` [`selectChannel`](#public-void-selectchanneluint8_t-channel-uint8_t-uint8_t-probetype)`(uint8_t channel, uint8_t probeType)` | Select the input channel and probe type to be read (3 channels available).
 
 # class `USBClass`
 Class for managing the USB functionality of the Portenta Machine Control.

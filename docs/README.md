@@ -18,7 +18,7 @@ https://www.arduino.cc/reference/en/libraries/arduino_portentamachinecontrol/
 - Manages input signals, including:
     - 8 digital inputs at 24Vdc
     - 2 channels for encoder readings
-    - 3 analog inputs for PT100/J/K temperature probes
+    - 3 analog inputs for PT100 and TC J/K/T temperature probes
     - 3 analog inputs for 4-20mA/0-10V/NTC signals
 
 - Manages output signals, including:
@@ -81,6 +81,7 @@ void loop() {
 - **[RTC_Alarm](../examples/RTC_Alarm):** This example demonstrates how to set up and utilize RTC alarms.
 - **[Temp_probes_RTD](../examples/Temp_probes_RTD):** This example demonstrates the temperature probe readings using RTD sensors.
 - **[Temp_probes_Thermocouples](../examples/Temp_probes_Thermocouples):** This example demonstrates the temperature probe readings using thermocouple sensors.
+- **[Temp_probes_Mixed](../examples/Temp_probes_Mixed):** This example demonstrates the temperature probe readings using both thermocouple and RTD sensors at the same time.
 - **[USB_host](../examples/USB_host):** This example shows the USB host functionality.
 
 ## API
