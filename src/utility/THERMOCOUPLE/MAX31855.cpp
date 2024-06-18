@@ -208,7 +208,7 @@ float MAX31855Class::readReferenceTemperature(int type)
 
   // The cold junction reference temperature is stored in the first 11 word's bits
   // sent by the Thermocouple-to-Digital Converter
-  rawword = rawword & 0x7FF;
+  rawword = rawword & 0xFFF;
   // check sign bit  and convert to negative value.
   if (rawword & 0x800) {
     ref = (0xF800 | (rawword & 0x7FF))*0.0625;
