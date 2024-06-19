@@ -216,7 +216,7 @@ float MAX31855Class::readReferenceTemperature(int type)
       // multiply for the LSB value
       ref = rawword * 0.0625f;
   }
-  Serial.println(ref);
+  
   return ref;
 }
 
