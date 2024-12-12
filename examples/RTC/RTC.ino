@@ -62,7 +62,7 @@ void loop() {
   Serial.print(":");
   Serial.println(MachineControl_RTCController.getSeconds());
   
-  time_t utc_time = time(NULL);
+  time_t utc_time = MachineControl_RTCController.getEpoch();
   Serial.print("Date as UTC time: ");
   Serial.println(utc_time);
   Serial.println();
