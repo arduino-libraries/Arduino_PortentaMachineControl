@@ -84,6 +84,7 @@
 #define MC_TC_SEL0_PIN      MC_RTD_SEL0_PIN
 #define MC_TC_SEL1_PIN      MC_RTD_SEL1_PIN
 #define MC_TC_SEL2_PIN      MC_RTD_SEL2_PIN
+#define MC_TC_TH_PIN        MC_RTD_TH_PIN
 
 /* USB */
 #define MC_USB_PWR_PIN      PB_14

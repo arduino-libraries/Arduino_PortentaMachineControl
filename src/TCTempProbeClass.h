@@ -41,7 +41,8 @@ public:
     TCTempProbeClass(PinName tc_cs_pin = MC_TC_CS_PIN, 
                      PinName ch_sel0_pin = MC_TC_SEL0_PIN, 
                      PinName ch_sel1_pin = MC_TC_SEL1_PIN, 
-                     PinName ch_sel2_pin = MC_TC_SEL2_PIN);
+                     PinName ch_sel2_pin = MC_TC_SEL2_PIN,
+                     PinName tc_th_pin = MC_TC_TH_PIN);
    
     /**
      * @brief Destruct the TCTempProbeClass object.
@@ -74,6 +75,7 @@ private:
     PinName _ch_sel0;   // Pin for the first channel selection bit
     PinName _ch_sel1;   // Pin for the second channel selection bit
     PinName _ch_sel2;   // Pin for the third channel selection bit
+    PinName _tc_th;     // Pin for the TC/RTD connection
 
     /**
      * @brief Enable the chip select (CS) of the MAX31855 digital converter.
