@@ -176,7 +176,7 @@ public:
      *                 of only channel A where as X4 uses them on both
      *                 channels.
      */
-    QEI(PinName channelA, PinName channelB, PinName index, int pulsesPerRev, Encoding encoding = X2_ENCODING);
+    QEI(PinName channelA, PinName channelB, PinName index, int pulsesPerRev, Encoding encoding = X4_ENCODING);
 
     /**
      * Reset the encoder.
@@ -207,6 +207,13 @@ public:
      * @return Number of revolutions which have occured on the index channel.
      */
     int getRevolutions(void);
+
+    /**
+     * Set the ecoding type of the encoder.
+     * 
+     * Changes the type of encoding used by the encoder from the default X2_ENCODING.
+     */
+    void setEncoding(Encoding encoding);
 
 private:
 
