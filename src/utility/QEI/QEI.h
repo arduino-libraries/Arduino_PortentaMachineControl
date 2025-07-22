@@ -176,7 +176,7 @@ public:
      *                 of only channel A where as X4 uses them on both
      *                 channels.
      */
-    QEI(PinName channelA, PinName channelB, PinName index, int pulsesPerRev, Encoding encoding = X4_ENCODING);
+    QEI(PinName channelA, PinName channelB, PinName index, int pulsesPerRev, Encoding encoding = X2_ENCODING);
 
     /**
      * Reset the encoder.
