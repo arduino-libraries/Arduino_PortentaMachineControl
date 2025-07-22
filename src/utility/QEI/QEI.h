@@ -208,6 +208,13 @@ public:
      */
     int getRevolutions(void);
 
+    /**
+     * Set the ecoding type of the encoder.
+     * 
+     * Changes the type of encoding used by the encoder from the default X2_ENCODING.
+     */
+    void setEncoding(Encoding encoding);
+
 private:
 
     /**
