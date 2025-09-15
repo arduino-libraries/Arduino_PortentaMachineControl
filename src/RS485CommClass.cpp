@@ -17,7 +17,7 @@ RS485CommClass::RS485CommClass(arduino::UART& uart_itf, PinName rs_tx_pin, PinNa
 RS485CommClass::~RS485CommClass() 
 { }
 
-void RS485CommClass::begin(unsigned long baudrate, uint16_t config = SERIAL_8N1, int predelay, int postdelay) {
+void RS485CommClass::begin(unsigned long baudrate, uint16_t config, int predelay, int postdelay) {
     /* Pinout configuration */
     pinMode(PinNameToIndex(MC_RS485_TX_PIN), OUTPUT);
     pinMode(PinNameToIndex(MC_RS485_RX_PIN), OUTPUT);
