@@ -63,5 +63,14 @@ int EncoderClass::getRevolutions(int channel) {
     }
 }
 
+void EncoderClass::setEncoding(int channel, QEI::Encoding encoding) {
+    switch (channel) {
+        case 0:
+            return _enc0.setEncoding(encoding);
+        case 1:
+            return _enc1.setEncoding(encoding);
+    }
+}
+
 EncoderClass MachineControl_Encoders;
 /**** END OF FILE ****/

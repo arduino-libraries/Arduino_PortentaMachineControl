@@ -94,6 +94,16 @@ public:
      */
     int getRevolutions(int channel);
 
+    /**
+     * @brief Set the encoding type for the specified encoder channel.
+     * 
+     * This method changes the encoding type from the default X2_ENCODING.
+     * 
+     * @param channel The encoder channel (0 or 1) to be changed.
+     * @param encoding The encoding type.
+     */
+    void setEncoding(int channel, QEI::Encoding encoding);
+
 private:
     QEI _enc0;  // QEI object for encoder 0
     QEI _enc1;  // QEI object for encoder 1

@@ -18,8 +18,9 @@ uint8_t* boardInfo();
 TCTempProbeClass::TCTempProbeClass(PinName tc_cs_pin,
                                      PinName ch_sel0_pin, 
                                      PinName ch_sel1_pin,
-                                     PinName ch_sel2_pin)
-: MAX31855Class(tc_cs_pin), _tc_cs{tc_cs_pin}, _ch_sel0{ch_sel0_pin}, _ch_sel1{ch_sel1_pin}, _ch_sel2{ch_sel2_pin}                  
+                                     PinName ch_sel2_pin,
+                                     PinName tc_th_pin)
+: MAX31855Class(tc_cs_pin), _tc_cs{tc_cs_pin}, _ch_sel0{ch_sel0_pin}, _ch_sel1{ch_sel1_pin}, _ch_sel2{ch_sel2_pin}, _tc_th{tc_th_pin}                  
 { }
 
 TCTempProbeClass::~TCTempProbeClass() 
@@ -31,6 +32,7 @@ bool TCTempProbeClass::begin() {
     pinMode(_ch_sel0, OUTPUT);
     pinMode(_ch_sel1, OUTPUT);
     pinMode(_ch_sel2, OUTPUT);
+    pinMode(_tc_th, OUTPUT);
 
     pinMode(_tc_cs, OUTPUT);
 
@@ -92,10 +94,12 @@ void TCTempProbeClass::end() {
 
 void TCTempProbeClass::_enable() {
     digitalWrite(_tc_cs, LOW);
+    digitalWrite(_tc_th, LOW);
 }
 
 void TCTempProbeClass::_disable() {
     digitalWrite(_tc_cs, HIGH);
+    digitalWrite(_tc_th, HIGH);
 }
 
 TCTempProbeClass MachineControl_TCTempProbe;
