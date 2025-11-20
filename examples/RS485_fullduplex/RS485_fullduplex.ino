@@ -38,7 +38,7 @@ void setup() {
     // - Half Duplex
     // - No A/B and Y/Z 120 Ohm termination enabled
     // Enable the RS485/RS232 system
-    MachineControl_RS485Comm.begin(115200, 0, 500); // Specify baudrate, and preamble and postamble times for RS485 communication
+    MachineControl_RS485Comm.begin(115200, SERIAL_8N1, 0, 500); // Specify baudrate, serial_config and preamble and postamble times for RS485 communication
 
     // Enable Full Duplex mode
     // This will also enable A/B and Y/Z 120 Ohm termination resistors
