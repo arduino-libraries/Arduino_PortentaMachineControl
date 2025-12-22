@@ -33,6 +33,9 @@ void RS485CommClass::begin(unsigned long baudrate, uint16_t config)
 }
 
 void RS485CommClass::begin(unsigned long baudrate, uint16_t config, int predelay, int postdelay) {
+	if (_started) return;
+    _started = true;
+
     /* Pinout configuration */
     pinMode(PinNameToIndex(MC_RS485_TX_PIN), OUTPUT);
     pinMode(PinNameToIndex(MC_RS485_RX_PIN), OUTPUT);
@@ -70,6 +73,8 @@ void RS485CommClass::end() {
 
     /* Call end() base class to de-initialize RS485 communication */
     RS485Class::end();
+
+	_started = false;
 }
 
 void RS485CommClass::setModeRS232(bool enable) 	{ 

@@ -143,6 +143,7 @@ class RS485CommClass : public RS485Class {
         void setFullDuplex(bool enable);
 
     private:
+        bool _started = false; // Flag to indicate if RS485 communication has been started
         /**
          * @brief Enable RS485 communication.
          *
