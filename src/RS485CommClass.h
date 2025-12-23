@@ -51,14 +51,44 @@ class RS485CommClass : public RS485Class {
         /**
          * @brief Begin the RS485 communication protocol.
          *
+         * This method initializes the RS485 communication protocol with the specified baud rate.
+         *
+         * @param baudrate The desired baud rate for the RS485 communication.
+         */
+        void begin(unsigned long baudrate);
+        
+        /**
+         * @brief Begin the RS485 communication protocol.
+         *
+         * This method initializes the RS485 communication protocol with the specified baud rate and pre/post delays.
+         *
+         * @param baudrate The desired baud rate for the RS485 communication.
+         * @param predelay The delay before sending data in the RS485 communication.
+         * @param postdelay The delay after sending data in the RS485 communication.
+         */
+        void begin(unsigned long baudrate, int predelay, int postdelay);
+        
+        /**
+         * @brief Begin the RS485 communication protocol.
+         *
+         * This method initializes the RS485 communication protocol with the specified baud rate and serial configuration.
+         *
+         * @param baudrate The desired baud rate for the RS485 communication.
+         * @param config The desired Serial config (bits, parity and stopbits), see HardwareSerial.h
+         */
+        void begin(unsigned long baudrate, uint16_t config);
+
+        /**
+         * @brief Begin the RS485 communication protocol.
+         *
          * This method initializes the RS485 communication protocol with the specified baud rate and pre/post delays.
          *
          * @param baudrate The desired baud rate for the RS485 communication.
          * @param config The desired Serial config (bits, parity and stopbits), see HardwareSerial.h
-         * @param predelay The delay before sending data in the RS485 communication (default: RS485_DEFAULT_PRE_DELAY).
-         * @param postdelay The delay after sending data in the RS485 communication (default: RS485_DEFAULT_POST_DELAY).
+         * @param predelay The delay before sending data in the RS485 communication.
+         * @param postdelay The delay after sending data in the RS485 communication.
          */
-        void begin(unsigned long baudrate = 115200, uint16_t config = SERIAL_8N1, int predelay = RS485_DEFAULT_PRE_DELAY, int postdelay = RS485_DEFAULT_POST_DELAY);
+        void begin(unsigned long baudrate, uint16_t config, int predelay, int postdelay);
 
         /**
          * @brief Close the RS485 communication protocol.
@@ -113,6 +143,7 @@ class RS485CommClass : public RS485Class {
         void setFullDuplex(bool enable);
 
     private:
+        bool _started = false; // Flag to indicate if RS485 communication has been started
         /**
          * @brief Enable RS485 communication.
          *
