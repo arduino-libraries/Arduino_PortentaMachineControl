@@ -28,7 +28,7 @@ class AnalogOutClass {
          * @param ao0_pin The analog pin number of the channel 0
          * @param ao1_pin The analog pin number of the channel 1
          * @param ao2_pin The analog pin number of the channel 2
-         * @param ao3_pin The analog pin number of the channel 2
+         * @param ao3_pin The analog pin number of the channel 3
          */
         AnalogOutClass(PinName ao0_pin = MC_AO_AO0_PIN, PinName ao1_pin = MC_AO_AO1_PIN, PinName ao2_pin = MC_AO_AO2_PIN, PinName ao3_pin = MC_AO_AO3_PIN);
         
